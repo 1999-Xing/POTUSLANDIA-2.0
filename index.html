@@ -8,59 +8,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-
-<div class="sidebar">
-    <h2>🌿 Potuslandia</h2>
-
-    <a href="#" onclick="inicio()">🏠 Inicio</a>
-    <a href="#" onclick="archivos()">📁 Archivos</a>
-    <a href="#" onclick="favoritos()">⭐ Favoritos</a>
-    <a href="#">⬆️ Subir archivo</a>
-    <a href="#">👤 Mi perfil</a>
-    <a href="#">⚙️ Ajustes</a>
-</div>
+<body onload="inicio()">
 
 <nav>
     <div class="logo">🌿 Potuslandia</div>
+
+    <ul>
+        <li><a href="#" onclick="inicio()">Inicio</a></li>
+        <li><a href="#" onclick="archivos()">Archivos</a></li>
+        <li><a href="#" onclick="favoritos()">Favoritos</a></li>
+        <li><a href="#" onclick="comunidad()">Comunidad</a></li>
+    </ul>
 </nav>
 
-<main id="contenido">
-
-<section class="hero">
-    <h1>Bienvenido a Potuslandia</h1>
-
-    <p>
-        Una biblioteca creada por la comunidad para compartir recursos,
-        archivos y mucho más.
-    </p>
-
-    <button>Explorar archivos</button>
-</section>
-
-<section class="cards">
-
-    <div class="card">
-        📁
-        <h2>Archivos</h2>
-        <p>Explora miles de archivos organizados.</p>
-    </div>
-
-    <div class="card">
-        ⭐
-        <h2>Destacados</h2>
-        <p>Los recursos favoritos de la comunidad.</p>
-    </div>
-
-    <div class="card">
-        👥
-        <h2>Comunidad</h2>
-        <p>Más de 30.000 miembros colaborando.</p>
-    </div>
-
-</section>
-
-</main>
+<!-- AQUÍ SE RENDERIZA TODA LA APP -->
+<div id="contenido"></div>
 
 <script src="script.js"></script>
 
