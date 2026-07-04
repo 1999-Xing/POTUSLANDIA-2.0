@@ -2,7 +2,7 @@ function inicio() {
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
             <h1>¡Bienvenidx a bordo!</h1>
-            <p> Una comunidad de nakamas y buen rollo.</p>
+            <p>Una comunidad de nakamas y buen rollo.</p>
 
             <button onclick="archivos()">
                 Investigar el botín
@@ -32,14 +32,48 @@ function inicio() {
 }
 
 function archivos() {
+
+    let lista = "";
+
+    RECURSOS.forEach(recurso => {
+
+        lista += `
+            <div class="card">
+                <h2>${recurso.nombre}</h2>
+
+                <p><strong>Categoría:</strong> ${recurso.categoria}</p>
+
+                <p>${recurso.descripcion}</p>
+
+                <p><strong>Origen:</strong> ${recurso.origen}</p>
+
+                <p><strong>Tipo:</strong> ${recurso.tipo}</p>
+
+                <button>
+                    Descargar
+                </button>
+            </div>
+        `;
+
+    });
+
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
+
             <h1>📁 Tesoro</h1>
-            <p>Aquí aparecerán todos los archivos subidos.</p>
+
+            <p>Actualmente hay <strong>${RECURSOS.length}</strong> recursos.</p>
 
             <button onclick="inicio()">
                 ⬅ Volver al inicio
             </button>
+
+        </section>
+
+        <section class="cards">
+
+            ${lista}
+
         </section>
     `;
 }
@@ -70,5 +104,4 @@ function comunidad() {
     `;
 }
 
-// 🔥 Arranque automático
 inicio();
