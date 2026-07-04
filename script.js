@@ -42,18 +42,26 @@ function archivos() {
 
 function mostrar(listaRecursos) {
 
+    const favoritos = getFavoritos();
+
     let lista = "";
 
     listaRecursos.forEach(recurso => {
 
+        const esFavorito = favoritos.includes(recurso.id);
+
         lista += `
             <div class="card">
                 <h2>${recurso.nombre}</h2>
+
                 <p><strong>Categoría:</strong> ${recurso.categoria}</p>
                 <p>${recurso.descripcion}</p>
                 <p><strong>Origen:</strong> ${recurso.origen}</p>
                 <p><strong>Tipo:</strong> ${recurso.tipo}</p>
-                <button>Descargar</button>
+
+                <button onclick="toggleFavorito(${recurso.id})">
+                    ${esFavorito ? "⭐ Quitar favorito" : "☆ Favorito"}
+                </button>
             </div>
         `;
     });
@@ -79,10 +87,32 @@ function buscar() {
 }
 
 function favoritos() {
+
+    let favs = getFavoritos();
+    let recursosFav = RECURSOS.filter(r => favs.includes(r.id));
+
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
             <h1>⭐ Favoritos</h1>
-            <button onclick="inicio()">⬅ Volver</button>
+
+            <p>Tienes <strong>${recursosFav.length}</strong> favoritos</p>
+
+            <button onclick="inicio()">
+                ⬅ Volver
+            </button>
+        </section>
+
+        <section class="cards">
+            ${recursosFav.map(recurso => `
+                <div class="card">
+                    <h2>${recurso.nombre}</h2>
+                    <p>${recurso.descripcion}</p>
+
+                    <button onclick="toggleFavorito(${recurso.id})">
+                        ❌ Quitar
+                    </button>
+                </div>
+            `).join("")}
         </section>
     `;
 }
@@ -94,6 +124,31 @@ function comunidad() {
             <button onclick="inicio()">⬅ Volver</button>
         </section>
     `;
+}
+
+/* ⭐ FAVORITOS (LOCAL STORAGE) */
+
+function getFavoritos() {
+    return JSON.parse(localStorage.getItem("favoritos")) || [];
+}
+
+function guardarFavoritos(favs) {
+    localStorage.setItem("favoritos", JSON.stringify(favs));
+}
+
+function toggleFavorito(id) {
+
+    let favs = getFavoritos();
+
+    if (favs.includes(id)) {
+        favs = favs.filter(f => f !== id);
+    } else {
+        favs.push(id);
+    }
+
+    guardarFavoritos(favs);
+
+    archivos(); // recarga vista
 }
 
 inicio();
