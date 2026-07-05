@@ -8,7 +8,73 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
+const auth = firebase.auth();
+
+/* =========================
+   ADMIN EMAILS
+========================= */
+
+const ADMIN_EMAILS = [
+    "xing75949@gmail.com",
+    "capitana@gmail.com"
+];
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(email, password) {
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+
+            alert("Login correcto 🔓");
+
+            // 🔥 espera a que Firebase actualice sesión
+            setTimeout(() => {
+                panelAdmin();
+            }, 500);
+
+        })
+        .catch(err => alert(err.message));
+}
+
+/* =========================
+   LOGIN UI
+========================= */
+
+function mostrarLogin() {
+
+    document.getElementById("contenido").innerHTML = `
+        <section class="hero">
+            <h1>🔐 Login Admin</h1>
+
+            <input id="email" placeholder="Email"><br><br>
+            <input id="password" type="password" placeholder="Contraseña"><br><br>
+
+            <button onclick="login(
+                document.getElementById('email').value,
+                document.getElementById('password').value
+            )">
+                Entrar
+            </button>
+
+            <button onclick="inicio()">Volver</button>
+        </section>
+    `;
+}
+
+/* =========================
+   ESTADO GLOBAL USUARIO
+========================= */
+
+let usuarioActual = null;
+
+auth.onAuthStateChanged(user => {
+    usuarioActual = user;
+});
 
 /* =========================
    INICIO
@@ -24,8 +90,8 @@ function inicio() {
                 Investigar el botín
             </button>
 
-            <button onclick="panelAdmin()">
-                ⚙ Admin
+            <button onclick="mostrarLogin()">
+                🔐 Admin
             </button>
 
         </section>
@@ -33,12 +99,60 @@ function inicio() {
 }
 
 /* =========================
-   FIREBASE: GET
+   GET RECURSOS
 ========================= */
 
 async function getRecursos() {
     const snap = await db.collection("recursos").get();
     return snap.docs.map(doc => doc.data());
+}
+
+/* =========================
+   PANEL ADMIN (FIX DEFINITIVO)
+========================= */
+
+async function panelAdmin() {
+
+    // 🔥 espera si Firebase aún no ha cargado usuario
+    if (!auth.currentUser) {
+        setTimeout(panelAdmin, 300);
+        return;
+    }
+
+    const user = auth.currentUser;
+
+    if (!ADMIN_EMAILS.includes(user.email)) {
+
+        document.getElementById("contenido").innerHTML = `
+            <section class="hero">
+                <h1>⛔ Acceso denegado</h1>
+                <button onclick="inicio()">Volver</button>
+            </section>
+        `;
+        return;
+    }
+
+    document.getElementById("contenido").innerHTML = `
+        <section class="hero">
+
+            <h1>⚙ Panel de Admin</h1>
+
+            <input id="nombre" placeholder="Nombre"><br><br>
+            <input id="descripcion" placeholder="Descripción"><br><br>
+            <input id="categoria" placeholder="Categoría"><br><br>
+            <input id="seccion" placeholder="Sección"><br><br>
+            <input id="enlace" placeholder="Enlace de descarga"><br><br>
+
+            <button onclick="guardarRecurso()">
+                ➕ Guardar
+            </button>
+
+            <button onclick="inicio()">
+                ⬅ Volver
+            </button>
+
+        </section>
+    `;
 }
 
 /* =========================
@@ -59,62 +173,51 @@ async function archivos() {
                 type="text"
                 placeholder="🔍 Buscar recursos..."
                 oninput="buscar()"
-                style="padding:10px; width:80%; max-width:400px; margin-top:10px;"
+                style="padding:10px; width:80%; max-width:400px;"
             >
 
-            <p>Actualmente hay <strong id="contador">${datos.length}</strong> recursos.</p>
+            <p>Actualmente hay <strong id="contador">${datos.length}</strong></p>
 
-            <button onclick="inicio()">
-                ⬅ Volver al inicio
-            </button>
+            <button onclick="inicio()">⬅ Volver</button>
+
         </section>
 
-        <section class="cards" id="lista">
-        </section>
+        <section class="cards" id="lista"></section>
     `;
 
     mostrar(datos);
 }
 
 /* =========================
-   MOSTRAR LISTA
+   MOSTRAR
 ========================= */
 
 function mostrar(listaRecursos) {
 
-    let lista = "";
+    document.getElementById("lista").innerHTML = listaRecursos.map(r => `
+        <div class="card">
+            <h2>${r.nombre}</h2>
 
-    listaRecursos.forEach(recurso => {
+            <p>
+                <strong>Categoría:</strong>
+                <a href="#" onclick="abrirCategoria('${r.seccion}'); return false;">
+                    ${r.categoria}
+                </a>
+            </p>
 
-        lista += `
-            <div class="card">
+            <p>${r.descripcion}</p>
+            <p>${r.origen}</p>
+            <p>${r.tipo}</p>
 
-                <h2>${recurso.nombre}</h2>
-
-                <p>
-                    <strong>Categoría:</strong>
-                    <a href="#" onclick="abrirCategoria('${recurso.seccion}'); return false;">
-                        ${recurso.categoria}
-                    </a>
-                </p>
-
-                <p>${recurso.descripcion}</p>
-                <p><strong>Origen:</strong> ${recurso.origen}</p>
-                <p><strong>Tipo:</strong> ${recurso.tipo}</p>
-
-                <button onclick="window.open('${recurso.enlace}', '_blank')">
-                    📥 Descargar
-                </button>
-
-            </div>
-        `;
-    });
-
-    document.getElementById("lista").innerHTML = lista;
+            <button onclick="window.open('${r.enlace}', '_blank')">
+                📥 Descargar
+            </button>
+        </div>
+    `).join("");
 }
 
 /* =========================
-   BUSCADOR GLOBAL
+   BUSCADOR
 ========================= */
 
 async function buscar() {
@@ -125,9 +228,7 @@ async function buscar() {
     const filtrados = datos.filter(r =>
         r.nombre.toLowerCase().includes(texto) ||
         r.categoria.toLowerCase().includes(texto) ||
-        r.descripcion.toLowerCase().includes(texto) ||
-        r.origen.toLowerCase().includes(texto) ||
-        r.tipo.toLowerCase().includes(texto)
+        r.descripcion.toLowerCase().includes(texto)
     );
 
     document.getElementById("contador").innerText = filtrados.length;
@@ -136,120 +237,7 @@ async function buscar() {
 }
 
 /* =========================
-   CATEGORÍAS
-========================= */
-
-async function abrirCategoria(seccion) {
-
-    const datos = await getRecursos();
-
-    const filtrados = datos.filter(r => r.seccion === seccion);
-
-    document.getElementById("contenido").innerHTML = `
-        <section class="hero">
-
-            <h1>📂 ${seccion.toUpperCase()}</h1>
-
-            <p>Mostrando <strong>${filtrados.length}</strong> recursos</p>
-
-            <button onclick="archivos()">
-                ⬅ Volver a Biblioteca
-            </button>
-
-        </section>
-
-        <section class="cards" id="listaSeccion">
-        </section>
-    `;
-
-    mostrarSeccion(filtrados);
-}
-
-/* =========================
-   MOSTRAR SECCIÓN
-========================= */
-
-function mostrarSeccion(listaRecursos) {
-
-    let lista = "";
-
-    listaRecursos.forEach(recurso => {
-
-        lista += `
-            <div class="card">
-
-                <h2>${recurso.nombre}</h2>
-
-                <p>${recurso.descripcion}</p>
-
-                <p><strong>Origen:</strong> ${recurso.origen}</p>
-                <p><strong>Tipo:</strong> ${recurso.tipo}</p>
-
-                <button onclick="window.open('${recurso.enlace}', '_blank')">
-                    📥 Descargar
-                </button>
-
-            </div>
-        `;
-    });
-
-    document.getElementById("listaSeccion").innerHTML = lista;
-}
-
-/* =========================
-   ADMIN PANEL
-========================= */
-
-function panelAdmin() {
-
-    document.getElementById("contenido").innerHTML = `
-        <section class="hero">
-
-            <h1>⚙ Panel de Admin</h1>
-
-            <input id="nombre" placeholder="Nombre"><br><br>
-            <input id="descripcion" placeholder="Descripción"><br><br>
-            <input id="categoria" placeholder="Categoría"><br><br>
-            <input id="seccion" placeholder="Sección"><br><br>
-            <input id="enlace" placeholder="Enlace de descarga"><br><br>
-
-            <button onclick="guardarRecurso()">
-                ➕ Guardar recurso
-            </button>
-
-            <button onclick="inicio()">
-                ⬅ Volver
-            </button>
-
-        </section>
-    `;
-}
-
-/* =========================
-   GUARDAR EN FIREBASE
-========================= */
-
-async function guardarRecurso() {
-
-    const nuevo = {
-        id: Date.now(),
-        nombre: document.getElementById("nombre").value,
-        descripcion: document.getElementById("descripcion").value,
-        categoria: document.getElementById("categoria").value,
-        seccion: document.getElementById("seccion").value,
-        tipo: "WEB",
-        enlace: document.getElementById("enlace").value
-    };
-
-    await db.collection("recursos").add(nuevo);
-
-    alert("Recurso guardado en la nube ☁️");
-
-    inicio();
-}
-
-/* =========================
-   ARRANQUE
+   START
 ========================= */
 
 inicio();
