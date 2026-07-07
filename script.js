@@ -9,8 +9,11 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+
 const db = firebase.firestore();
 const auth = firebase.auth();
+
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 /* =========================
    ADMIN EMAILS
@@ -39,6 +42,49 @@ function login(email, password) {
 
         })
         .catch(err => alert(err.message));
+}
+
+/* =========================
+   LOGIN GOOGLE
+========================= */
+
+function loginGoogle() {
+
+    auth.signInWithPopup(googleProvider)
+
+    .then(async (resultado)=>{
+
+        const usuario = resultado.user;
+
+        console.log("Usuario conectado:", usuario);
+
+
+        await db.collection("usuarios").doc(usuario.uid).set({
+
+            nombre: usuario.displayName,
+            email: usuario.email,
+            foto: usuario.photoURL,
+            fechaRegistro: new Date()
+
+        }, { merge: true });
+
+
+        alert(
+            "Bienvenid@ a Potuslandia, " + usuario.displayName + " 🌿"
+        );
+
+
+        inicio();
+
+    })
+
+    .catch(error=>{
+
+        console.error(error);
+        alert("Error al iniciar sesión con Google.");
+
+    });
+
 }
 
 /* =========================
@@ -88,6 +134,10 @@ function inicio() {
 
             <button onclick="archivos()">
                 Investigar el botín
+            </button>
+
+            <button onclick="loginGoogle()">
+                🌿 Entrar con Gmail
             </button>
 
             <button onclick="mostrarLogin()">
