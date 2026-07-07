@@ -237,6 +237,57 @@ async function buscar() {
 }
 
 /* =========================
+   GUARDAR RECURSO
+========================= */
+
+async function guardarRecurso() {
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
+    const categoria = document.getElementById("categoria").value.trim();
+    const seccion = document.getElementById("seccion").value.trim();
+    const enlace = document.getElementById("enlace").value.trim();
+
+    if (
+        !nombre ||
+        !descripcion ||
+        !categoria ||
+        !seccion ||
+        !enlace
+    ){
+        alert("Debes rellenar todos los campos.");
+        return;
+    }
+
+    const nuevo = {
+        nombre,
+        descripcion,
+        categoria,
+        seccion,
+        origen: "Potuslandia",
+        tipo: "WEB",
+        enlace,
+        fecha: new Date()
+    };
+
+    try{
+
+        await db.collection("recursos").add(nuevo);
+
+        alert("✅ Recurso añadido correctamente.");
+
+        panelAdmin();
+
+    }catch(error){
+
+        console.error(error);
+        alert("Ha ocurrido un error al guardar.");
+
+    }
+
+}
+
+/* =========================
    START
 ========================= */
 
