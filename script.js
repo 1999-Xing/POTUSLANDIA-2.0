@@ -13,6 +13,11 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .catch(error => {
+        console.error("Error al configurar la persistencia:", error);
+    });
+
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 /* =========================
@@ -70,7 +75,7 @@ function loginGoogle() {
 
 
         alert(
-            "Bienvenid@ a Potuslandia, " + usuario.displayName + " 🌿"
+            "Bienvenidx a Potuslandia, " + usuario.displayName + " 🌿"
         );
 
 
@@ -81,9 +86,48 @@ function loginGoogle() {
     .catch(error=>{
 
         console.error(error);
-        alert("Error al iniciar sesión con Google.");
+        alert("Error al intentar entrar al barco.");
 
     });
+
+}
+
+function cerrarSesion() {
+
+    auth.signOut()
+
+    .then(() => {
+
+        alert("Has cerrado sesión. ¡Hasta pronto! 🌿");
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+        alert("No se pudo cerrar la sesión.");
+
+    });
+
+}
+
+function mostrarAcceso() {
+
+    document.getElementById("contenido").innerHTML = `
+        <section class="hero">
+
+            <h1>🌿 Bienvenido a Potuslandia</h1>
+
+            <p>
+                Para acceder al contenido necesitas iniciar sesión con Google.
+            </p>
+
+            <button onclick="loginGoogle()">
+                🌿 Entrar con Gmail
+            </button>
+
+        </section>
+    `;
 
 }
 
@@ -119,7 +163,19 @@ function mostrarLogin() {
 let usuarioActual = null;
 
 auth.onAuthStateChanged(user => {
+
     usuarioActual = user;
+
+    if (user) {
+
+        inicio();
+
+    } else {
+
+        mostrarAcceso();
+
+    }
+
 });
 
 /* =========================
@@ -132,17 +188,17 @@ function inicio() {
             <h1>¡Bienvenidx a bordo!</h1>
             <p>Una comunidad de nakamas y buen rollo.</p>
 
-            <button onclick="archivos()">
-                Investigar el botín
-            </button>
+           <button onclick="archivos()">
+           Investigar el botín
+           </button>
 
-            <button onclick="loginGoogle()">
-                🌿 Entrar con Gmail
-            </button>
+           <button onclick="mostrarLogin()">
+           🔐 Admin
+           </button>
 
-            <button onclick="mostrarLogin()">
-                🔐 Admin
-            </button>
+           <button onclick="cerrarSesion()">
+           🚪 Cerrar sesión
+        </button>
 
         </section>
     `;
@@ -340,5 +396,3 @@ async function guardarRecurso() {
 /* =========================
    START
 ========================= */
-
-inicio();
