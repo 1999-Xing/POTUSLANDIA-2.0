@@ -440,6 +440,8 @@ function toggleMenu() {
 
 }
 
+console.log("TOGGLE MENU CARGADO");
+
 /* =========================
    START
 ========================= */
