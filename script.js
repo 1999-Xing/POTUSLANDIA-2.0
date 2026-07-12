@@ -26,7 +26,8 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 const ADMIN_EMAILS = [
     "xing75949@gmail.com",
-    "capitana@gmail.com"
+    "mikylove943@gmail.com",
+    "xing75494@gmail.com"
 ];
 
 /* =========================
@@ -86,7 +87,7 @@ function loginGoogle() {
     .catch(error=>{
 
         console.error(error);
-        alert("Error al intentar entrar al barco.");
+        alert("Error al intentar subir al barco.");
 
     });
 
@@ -98,14 +99,14 @@ function cerrarSesion() {
 
     .then(() => {
 
-        alert("Has cerrado sesión. ¡Hasta pronto! 🌿");
+        alert("Has salido del bote. ¡Hasta pronto! 🌿");
 
     })
 
     .catch(error => {
 
         console.error(error);
-        alert("No se pudo cerrar la sesión.");
+        alert("No se pudo salir del bote.");
 
     });
 
@@ -116,14 +117,14 @@ function mostrarAcceso() {
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
 
-            <h1>🌿 Bienvenido a Potuslandia</h1>
+            <h1>🌿 Bienvenidx a Potuslandia</h1>
 
             <p>
-                Para acceder al contenido necesitas iniciar sesión con Google.
+                Para acceder al teroso necesitas registrarte en Potuslandia.
             </p>
 
             <button onclick="loginGoogle()">
-                🌿 Entrar con Gmail
+                🌿 Registrarse con Gmail
             </button>
 
         </section>
@@ -166,11 +167,35 @@ auth.onAuthStateChanged(user => {
 
     usuarioActual = user;
 
+    const menuUsuario = document.getElementById("menuUsuario");
+    const fotoUsuario = document.getElementById("fotoUsuario");
+    const nombreUsuario = document.getElementById("nombreUsuario");
+    const adminBtn = document.getElementById("adminBtn");
+
     if (user) {
+
+        // Mostrar el bloque del usuario
+        menuUsuario.style.display = "flex";
+
+        // Foto
+        fotoUsuario.src = user.photoURL || "";
+
+        // Nombre
+        nombreUsuario.textContent = user.displayName || user.email;
+
+        // Mostrar Admin solo a administradores
+        if (ADMIN_EMAILS.includes(user.email)) {
+            adminBtn.style.display = "block";
+        } else {
+            adminBtn.style.display = "none";
+        }
 
         inicio();
 
     } else {
+
+        // Ocultar menú usuario
+        menuUsuario.style.display = "none";
 
         mostrarAcceso();
 
@@ -183,6 +208,7 @@ auth.onAuthStateChanged(user => {
 ========================= */
 
 function inicio() {
+   
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
             <h1>¡Bienvenidx a bordo!</h1>
@@ -191,14 +217,6 @@ function inicio() {
            <button onclick="archivos()">
            Investigar el botín
            </button>
-
-           <button onclick="mostrarLogin()">
-           🔐 Admin
-           </button>
-
-           <button onclick="cerrarSesion()">
-           🚪 Cerrar sesión
-        </button>
 
         </section>
     `;
@@ -231,7 +249,7 @@ async function panelAdmin() {
 
         document.getElementById("contenido").innerHTML = `
             <section class="hero">
-                <h1>⛔ Acceso denegado</h1>
+                <h1>⛔ Nakama no identificado </h1>
                 <button onclick="inicio()">Volver</button>
             </section>
         `;
@@ -277,7 +295,7 @@ async function archivos() {
             <input 
                 id="buscador"
                 type="text"
-                placeholder="🔍 Buscar recursos..."
+                placeholder="🔍 Buscar tesoro..."
                 oninput="buscar()"
                 style="padding:10px; width:80%; max-width:400px;"
             >
@@ -371,7 +389,7 @@ async function guardarRecurso() {
         categoria,
         seccion,
         origen: "Potuslandia",
-        tipo: "WEB",
+        tipo: "Web",
         enlace,
         fecha: new Date()
     };
@@ -380,7 +398,7 @@ async function guardarRecurso() {
 
         await db.collection("recursos").add(nuevo);
 
-        alert("✅ Recurso añadido correctamente.");
+        alert("✅ Tesoro añadido correctamente.");
 
         panelAdmin();
 
@@ -388,6 +406,35 @@ async function guardarRecurso() {
 
         console.error(error);
         alert("Ha ocurrido un error al guardar.");
+
+    }
+
+}
+
+function toggleMenu() {
+
+    console.log("CLICK EN EL PERFIL");
+
+    const menu = document.getElementById("menuDesplegable");
+    const flecha = document.getElementById("flechaMenu");
+
+    if (!menu) return;
+
+    if (menu.style.display === "block") {
+
+        menu.style.display = "none";
+
+        if (flecha) {
+            flecha.style.transform = "rotate(0deg)";
+        }
+
+    } else {
+
+        menu.style.display = "block";
+
+        if (flecha) {
+            flecha.style.transform = "rotate(180deg)";
+        }
 
     }
 
