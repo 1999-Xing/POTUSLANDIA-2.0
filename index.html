@@ -23,8 +23,7 @@
             🌿 Potuslandia
         </div>
 
-
-        <ul class="menu">
+        <ul class="menu" id="menuPrincipal">
 
             <li>
                 <a href="#" onclick="inicio(); return false;">
@@ -46,91 +45,63 @@
 
         </ul>
 
-
-
         <!-- PERFIL USUARIO -->
 
         <div id="menuUsuario">
 
-
             <div id="perfilBtn" onclick="toggleMenu()">
 
-
-                <img 
+                <img
                     id="fotoUsuario"
                     src=""
                     alt="Usuario"
                 >
 
-
-                <span id="nombreUsuario">
-                    
-                </span>
-
+                <span id="nombreUsuario"></span>
 
                 <span id="flechaMenu">
                     ▼
                 </span>
 
-
             </div>
-
-
 
             <div id="menuDesplegable">
 
-
-                <div 
+                <div
                     class="menuItem"
                     id="adminBtn"
-                    onclick="mostrarLogin()"
+                    onclick="panelAdmin()"
                 >
                     ⚙️ Panel Admin
                 </div>
-
-
 
                 <div class="menuItem">
                     ⭐ Favoritos
                 </div>
 
-
-
                 <div class="menuItem">
                     👤 Mi perfil
                 </div>
 
-
-
                 <hr>
 
-
-
-                <div 
+                <div
                     class="menuItem salir"
                     onclick="cerrarSesion()"
                 >
                     🚪 Cerrar sesión
                 </div>
 
-
             </div>
-
 
         </div>
 
-
     </nav>
-
-
 
     <div id="contenido"></div>
 
-
-
     <script src="data/recursos.js"></script>
     <script src="script.js"></script>
-
 
 </body>
 

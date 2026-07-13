@@ -167,6 +167,7 @@ auth.onAuthStateChanged(user => {
 
     usuarioActual = user;
 
+    const menuPrincipal = document.getElementById("menuPrincipal");
     const menuUsuario = document.getElementById("menuUsuario");
     const fotoUsuario = document.getElementById("fotoUsuario");
     const nombreUsuario = document.getElementById("nombreUsuario");
@@ -174,32 +175,58 @@ auth.onAuthStateChanged(user => {
 
     if (user) {
 
-        // Mostrar el bloque del usuario
-        menuUsuario.style.display = "flex";
+    // Mostrar menú principal
+    menuPrincipal.style.display = "flex";
 
-        // Foto
-        fotoUsuario.src = user.photoURL || "";
+    // Mostrar perfil de usuario
+    menuUsuario.style.display = "flex";
 
-        // Nombre
-        nombreUsuario.textContent = user.displayName || user.email;
+    // Foto
+    if (user.photoURL) {
 
-        // Mostrar Admin solo a administradores
-        if (ADMIN_EMAILS.includes(user.email)) {
-            adminBtn.style.display = "block";
-        } else {
-            adminBtn.style.display = "none";
-        }
+        fotoUsuario.src = user.photoURL;
 
-        inicio();
+     } else {
 
-    } else {
+        db.collection("usuarios").doc(user.uid).get()
+            .then(doc => {
 
-        // Ocultar menú usuario
-        menuUsuario.style.display = "none";
+                if (doc.exists && doc.data().foto) {
+                    fotoUsuario.src = doc.data().foto;
+                }
 
-        mostrarAcceso();
+            })
+            .catch(error => {
+
+                console.error("Error al cargar la foto:", error);
+
+            });
 
     }
+
+    // Nombre
+    nombreUsuario.textContent = user.displayName || user.email;
+
+    // Mostrar botón de administrador
+    if (ADMIN_EMAILS.includes(user.email)) {
+        adminBtn.style.display = "block";
+    } else {
+        adminBtn.style.display = "none";
+    }
+
+    inicio();
+
+} else {
+
+    // Ocultar menú principal
+    menuPrincipal.style.display = "none";
+
+    // Ocultar perfil
+    menuUsuario.style.display = "none";
+
+    mostrarAcceso();
+
+}
 
 });
 
@@ -413,7 +440,7 @@ async function guardarRecurso() {
 
 function toggleMenu() {
 
-    console.log("CLICK EN EL PERFIL");
+    console.log("DENTRO DEL TOGGLE MENU");
 
     const menu = document.getElementById("menuDesplegable");
     const flecha = document.getElementById("flechaMenu");
