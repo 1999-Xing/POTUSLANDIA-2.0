@@ -76,7 +76,7 @@ function loginGoogle() {
 
 
         alert(
-            "Bienvenidx a Potuslandia, " + usuario.displayName + " 🌿"
+            "Bienvenidx a Potuslandia, " + usuario.displayName + " ⚓"
         );
 
 
@@ -99,7 +99,7 @@ function cerrarSesion() {
 
     .then(() => {
 
-        alert("Has salido del bote. ¡Hasta pronto! 🌿");
+        alert("Has salido del bote. ¡Hasta pronto! ⚓");
 
     })
 
@@ -117,14 +117,14 @@ function mostrarAcceso() {
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
 
-            <h1>🌿 Bienvenidx a Potuslandia</h1>
+            <h1>⚓ Bienvenidx a Potuslandia</h1>
 
             <p>
                 Para acceder al teroso necesitas registrarte en Potuslandia.
             </p>
 
             <button onclick="loginGoogle()">
-                🌿 Registrarse con Gmail
+                ⚓ Registrarse con Gmail
             </button>
 
         </section>
