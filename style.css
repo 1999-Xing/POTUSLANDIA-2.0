@@ -407,3 +407,74 @@ a{
 #menuDesplegable{
     display:none;
 }
+
+/* =========================
+   BOTONES DE LAS TARJETAS
+========================= */
+
+.botonesCard {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btnFavorito {
+
+    width: 55px;
+    height: 45px;
+
+    padding: 0;
+    margin-top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #1b4f9c;
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.btnFavorito:hover {
+
+    background-color: #1b4f9c;
+
+}
+
+.btnFavorito.favoritoActivo {
+
+    background-color: #5aa7ff;
+
+    box-shadow:0 0 20px rgba(90,167,255,.7);
+
+}
+
+.btnDescargar {
+
+    flex: 1;
+    height: 45px;
+
+    padding: 0;
+    margin-top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+}

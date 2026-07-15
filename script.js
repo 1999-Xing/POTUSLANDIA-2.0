@@ -255,7 +255,37 @@ function inicio() {
 
 async function getRecursos() {
     const snap = await db.collection("recursos").get();
-    return snap.docs.map(doc => doc.data());
+
+    return snap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+}
+
+/* =========================
+   GET FAVORITOS USUARIO
+========================= */
+
+async function getFavoritosUsuario(){
+
+    if(!auth.currentUser){
+
+        return [];
+
+    }
+
+
+    const uid = auth.currentUser.uid;
+
+
+    const snap = await db
+        .collection("favoritos")
+        .where("usuario", "==", uid)
+        .get();
+
+
+    return snap.docs.map(doc => doc.data().recurso);
+
 }
 
 /* =========================
@@ -314,6 +344,8 @@ async function archivos() {
 
     const datos = await getRecursos();
 
+    const favoritosUsuario = await getFavoritosUsuario();
+
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
 
@@ -336,17 +368,56 @@ async function archivos() {
         <section class="cards" id="lista"></section>
     `;
 
-    mostrar(datos);
+    mostrar(datos, favoritosUsuario);
+}
+
+/* =========================
+   MIS FAVORITOS
+========================= */
+
+async function misFavoritos(){
+
+    const favoritosUsuario = await getFavoritosUsuario();
+
+    const datos = await getRecursos();
+
+
+    const listaFavoritos = datos.filter(r =>
+        favoritosUsuario.includes(r.id)
+    );
+
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>🌟 Mis favoritos</h1>
+
+            <button onclick="inicio()">
+                ⬅ Volver
+            </button>
+
+        </section>
+
+
+        <section class="cards" id="lista"></section>
+
+    `;
+
+
+    mostrar(listaFavoritos, favoritosUsuario);
+
 }
 
 /* =========================
    MOSTRAR
 ========================= */
 
-function mostrar(listaRecursos) {
+function mostrar(listaRecursos, favoritosUsuario = []) {
 
     document.getElementById("lista").innerHTML = listaRecursos.map(r => `
         <div class="card">
+
             <h2>${r.nombre}</h2>
 
             <p>
@@ -360,11 +431,28 @@ function mostrar(listaRecursos) {
             <p>${r.origen}</p>
             <p>${r.tipo}</p>
 
-            <button onclick="window.open('${r.enlace}', '_blank')">
-                📥 Descargar
-            </button>
+            <div class="botonesCard">
+
+                <button
+                class="btnFavorito ${favoritosUsuario.includes(r.id) ? "favoritoActivo" : ""}"
+                id="fav-${r.id}"
+                onclick="toggleFavorito('${r.id}')"
+                >
+                ${favoritosUsuario.includes(r.id) ? "🌟" : "⭐"}
+                </button>
+    
+                <button
+                    class="btnDescargar"
+                    onclick="window.open('${r.enlace}', '_blank')"
+                >
+                    📥 Descargar
+                </button>
+
+            </div>
+
         </div>
     `).join("");
+
 }
 
 /* =========================
@@ -468,6 +556,82 @@ function toggleMenu() {
 }
 
 console.log("TOGGLE MENU CARGADO");
+
+/* =========================
+   FAVORITOS
+========================= */
+
+async function toggleFavorito(idRecurso){
+
+    if(!auth.currentUser){
+
+        alert("Debes iniciar sesión.");
+
+        return;
+
+    }
+
+
+    const uid = auth.currentUser.uid;
+
+
+    const idFavorito = uid + "_" + idRecurso;
+
+
+    const favorito = await db
+        .collection("favoritos")
+        .doc(idFavorito)
+        .get();
+
+
+    const boton = document.getElementById("fav-" + idRecurso);
+
+
+
+    if(favorito.exists){
+
+
+        await db
+            .collection("favoritos")
+            .doc(idFavorito)
+            .delete();
+
+        alert("⭐ Expulsado de Favoritos");
+
+        if(boton){
+
+            boton.innerHTML = "⭐";
+            boton.classList.remove("favoritoActivo");
+
+        }
+
+
+    } else {
+
+
+        await db
+            .collection("favoritos")
+            .doc(idFavorito)
+            .set({
+
+                usuario: uid,
+                recurso: idRecurso,
+                fecha: new Date()
+
+            });
+
+            alert("🌟 Guardado en Favoritos");
+
+        if(boton){
+
+            boton.innerHTML = "🌟";
+            boton.classList.add("favoritoActivo");
+
+        }
+
+    }
+
+}
 
 /* =========================
    START
