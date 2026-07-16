@@ -13,6 +13,38 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+/* =========================
+   FONDOS ALEATORIOS
+========================= */
+
+const fondos = [
+
+    "fondos/fondo_aurora_1.png",
+    "fondos/fondo_ballena_1.png",
+    "fondos/fondo_medusa_1.png",
+    "fondos/fondo_peces_1.png",
+    "fondos/fondo_pov_1.png"
+
+];
+
+function cambiarFondoAleatorio(){
+
+    const fondo = fondos[Math.floor(Math.random() * fondos.length)];
+
+    document.body.style.backgroundImage = `url('${fondo}')`;
+
+}
+
+function cambiarFondoAleatorio(){
+
+    const fondo = fondos[Math.floor(Math.random() * fondos.length)];
+
+    document.body.style.backgroundImage = `url('${fondo}')`;
+
+}
+
+cambiarFondoAleatorio();
+
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .catch(error => {
         console.error("Error al configurar la persistencia:", error);

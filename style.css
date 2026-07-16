@@ -6,15 +6,17 @@
 }
 
 body{
-    background:
-        radial-gradient(circle at top,#1d4ed8 0%,transparent 40%),
-        radial-gradient(circle at bottom,#14532d 0%,transparent 35%),
-        #0d1117;
 
-    color:white;
-    min-height:100vh;
+    background-color: #0d1117;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: white;
+    min-height: 100vh;
+
 }
-
 
 /* =========================
    NAVBAR
