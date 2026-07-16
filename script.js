@@ -366,10 +366,15 @@ async function archivos() {
         </section>
 
         <section class="cards" id="lista"></section>
-    `;
+        `;
 
-    mostrar(datos, favoritosUsuario);
+
+        mostrar(datos, favoritosUsuario);
+
+        mostrarMensaje("⬇️ Los tesoros te esperan más abajo ^^.");
+
 }
+
 
 /* =========================
    MIS FAVORITOS
@@ -630,6 +635,35 @@ async function toggleFavorito(idRecurso){
         }
 
     }
+
+}
+
+/* =========================
+   MENSAJES TEMPORALES
+========================= */
+
+function mostrarMensaje(texto){
+
+    const mensaje = document.createElement("div");
+
+    mensaje.className = "mensajeTemporal";
+    mensaje.innerHTML = texto;
+
+    document.body.appendChild(mensaje);
+
+    setTimeout(() => {
+        mensaje.classList.add("mostrar");
+    }, 50);
+
+    setTimeout(() => {
+
+        mensaje.classList.remove("mostrar");
+
+        setTimeout(() => {
+            mensaje.remove();
+        }, 300);
+
+    }, 3000);
 
 }
 

@@ -478,3 +478,48 @@ a{
     cursor: pointer;
 
 }
+
+/* =========================
+   MENSAJES TEMPORALES
+========================= */
+
+.mensajeTemporal{
+
+    position: fixed;
+
+    top: 90px;
+    left: 50%;
+
+    transform: translateX(-50%) translateY(-20px);
+
+    background: rgba(22,27,34,.96);
+
+    color: white;
+
+    padding: 15px 28px;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+
+    font-weight: bold;
+
+    z-index: 9999;
+
+    opacity: 0;
+
+    transition: .3s;
+
+    pointer-events: none;
+
+}
+
+.mensajeTemporal.mostrar{
+
+    opacity: 1;
+
+    transform: translateX(-50%) translateY(0);
+
+}
