@@ -29,19 +29,38 @@ const fondos = [
 
 function cambiarFondoAleatorio(){
 
-    const fondo = fondos[Math.floor(Math.random() * fondos.length)];
-
-    document.body.style.backgroundImage = `url('${fondo}')`;
-
-}
-
-function cambiarFondoAleatorio(){
+    console.log("CAMBIANDO FONDO");
 
     const fondo = fondos[Math.floor(Math.random() * fondos.length)];
 
-    document.body.style.backgroundImage = `url('${fondo}')`;
+    const capaFondo = document.getElementById("fondo");
+
+    console.log("CAPA FONDO:", capaFondo);
+    console.log("IMAGEN ELEGIDA:", fondo);
+
+
+    if(!capaFondo){
+
+        document.body.style.backgroundImage = `url('${fondo}')`;
+        return;
+
+    }
+
+
+    capaFondo.style.opacity = "0";
+
+
+    setTimeout(()=>{
+
+        capaFondo.style.backgroundImage = `url('${fondo}')`;
+
+        capaFondo.style.opacity = "1";
+
+
+    },500);
 
 }
+
 
 cambiarFondoAleatorio();
 
@@ -275,6 +294,10 @@ function inicio() {
 
            <button onclick="archivos()">
            Investigar el botín
+           </button>
+
+           <button class="btnFondo" onclick="cambiarFondoAleatorio()">
+           🌌
            </button>
 
         </section>
