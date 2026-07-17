@@ -723,5 +723,296 @@ function mostrarMensaje(texto){
 }
 
 /* =========================
+   COMUNIDAD
+========================= */
+
+function comunidad(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>🌊 Comunidad Potuslandia</h1>
+
+            <p>
+                Explora y descubre todo lo que ofrece la comunidad.
+            </p>
+
+
+            <div class="comunidadMenu">
+
+
+                <button onclick="inicio()">
+                    ⬅ Volver
+                </button>
+
+
+                <button onclick="normas()">
+                    📜 Normas
+                </button>
+
+
+                <button onclick="guia()">
+                    🧭 Guía
+                </button>
+
+
+                <button onclick="noticias()">
+                    📢 Noticias
+                </button>
+
+
+                <button onclick="discord()">
+                    💬 Discord
+                </button>
+
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   NORMAS COMUNIDAD
+========================= */
+
+function normas(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>📜 Normas de Potuslandia</h1>
+
+
+            <p>
+                Para mantener la isla tranquila y agradable para todos:
+
+            </p>
+
+
+            <div class="comunidadTexto">
+
+
+                <p>
+                    ⚓ Respeta al resto de navegantes.
+                </p>
+
+
+                <p>
+                    🌱 Comparte botín seguro.
+                </p>
+
+
+                <p>
+                    💬 Mantén un buen ambiente en la comunidad.
+                </p>
+
+
+                <p>
+                    🚫 No uses lenguaje ofensivo o dañino.
+                </p>
+
+
+                <p>
+                    🗺️ Explora, comparte y disfruta de Potuslandia.
+                </p>
+
+
+                <button onclick="comunidad()">
+                    ⬅ Volver a Comunidad
+                </button>
+
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   GUIA COMUNIDAD
+========================= */
+
+function guia(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>🧭 Guía de Potuslandia</h1>
+
+
+            <p>
+                Aprende a explorar la isla y encontrar sus tesoros.
+            </p>
+
+
+            <div class="comunidadTexto">
+
+
+                <p>
+                    📁 Archivos: encuentra y descarga recursos.
+                </p>
+
+
+                <p>
+                    🌟 Favoritos: guarda tus tesoros preferidos.
+                </p>
+
+
+                <p>
+                    🔍 Buscador: encuentra rápidamente lo que buscas.
+                </p>
+
+
+                <p>
+                    👤 Perfil: administra tu cuenta.
+                </p>
+
+
+                <p>
+                    🌊 Comunidad: descubre nuevas zonas a bordo.
+                </p>
+
+
+                <button onclick="comunidad()">
+                    ⬅ Volver a Comunidad
+                </button>
+
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   NOTICIAS COMUNIDAD
+========================= */
+
+function noticias(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>📢 Noticias Potuslandia</h1>
+
+
+            <p>
+                Este espacio del barco todavía está en construcción.
+            </p>
+
+
+            <div class="comunidadTexto">
+
+
+                <p>
+                    ⚓ El Soporte está construyendo este rincón para futuros avisos.
+                </p>
+
+
+                <p>
+                    🌱 Próximamente encontrarás aquí las novedades de Potuslandia.
+                </p>
+
+
+                <p>
+                    🗺️ Sigue explorando mientras terminamos esta zona.
+                </p>
+
+
+                <button onclick="comunidad()">
+                    ⬅ Volver a Comunidad
+                </button>
+
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   DISCORD COMUNIDAD
+========================= */
+
+function discord(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>💬 Discord Potuslandia</h1>
+
+
+            <p>
+                Únete a la tripulación y navega junto a otrxs exploradores.
+            </p>
+
+
+            <div class="comunidadTexto">
+
+
+                <p>
+                    ⛵ Comparte tus descubrimientos.
+                </p>
+
+
+                <p>
+                    🛟 Ayuda a otrxs navegantes.
+                </p>
+
+
+                <p>
+                    📢 Descubre avisos y novedades.
+                </p>
+
+
+                <button onclick="abrirDiscord()">
+                    💬 Entrar al Discord
+                </button>
+
+
+                <br>
+
+
+                <button onclick="comunidad()">
+                    ⬅ Volver a Comunidad
+                </button>
+
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   ABRIR DISCORD
+========================= */
+
+function abrirDiscord(){
+
+    window.open(
+        "AQUI_PONES_EL_ENLACE_DE_INVITACION",
+        "_blank"
+    );
+
+}
+
+/* =========================
    START
 ========================= */
