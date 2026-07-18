@@ -12,6 +12,9 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+const rtdb = firebase.database();
+
+console.log("Realtime Database:", rtdb);
 
 /* =========================
    FONDOS ALEATORIOS
@@ -171,7 +174,7 @@ function mostrarAcceso() {
             <h1>⚓ Bienvenidx a Potuslandia</h1>
 
             <p>
-                Para acceder al teroso necesitas registrarte en Potuslandia.
+                Para acceder al tesoro necesitas registrarte en Potuslandia.
             </p>
 
             <button onclick="loginGoogle()">
@@ -225,6 +228,22 @@ auth.onAuthStateChanged(user => {
     const adminBtn = document.getElementById("adminBtn");
 
     if (user) {
+
+    /* =========================
+   PRESENCIA EN TIEMPO REAL
+========================= */
+
+const presenciaRef = rtdb.ref("presencia/" + user.uid);
+
+presenciaRef.set({
+
+    nombre: user.displayName || "Tripulante",
+    foto: user.photoURL || "",
+    conectado: true
+
+});
+
+presenciaRef.onDisconnect().remove();
 
     // Mostrar menú principal
     menuPrincipal.style.display = "flex";
@@ -282,6 +301,66 @@ auth.onAuthStateChanged(user => {
 });
 
 /* =========================
+   ESTADO DE LA TRIPULACIÓN
+========================= */
+
+function cargarTripulacion(){
+
+    const referencia = rtdb.ref("presencia");
+
+
+    referencia.on("value", async snapshot => {
+
+
+        const activos = snapshot.exists()
+            ? Object.keys(snapshot.val()).length
+            : 0;
+
+
+
+        const usuariosSnapshot = await db
+            .collection("usuarios")
+            .get();
+
+
+
+        const totalUsuarios = usuariosSnapshot.size;
+
+
+
+        const enPuerto = totalUsuarios - activos;
+
+
+
+        const totalTexto = document.getElementById("tripulacion");
+
+
+
+        if(!totalTexto) return;
+
+
+
+        totalTexto.innerHTML = `
+
+            <h3>⚓ Estado de la tripulación:</h3>
+
+            <p>
+                🔵 Navegando: ${activos}
+            </p>
+
+            <p>
+                ⚪ En puerto: ${enPuerto}
+            </p>
+
+        `;
+
+
+    });
+
+
+}
+
+/* =========================
    INICIO
 ========================= */
 
@@ -289,19 +368,40 @@ function inicio() {
    
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
+
             <h1>¡Bienvenidx a bordo!</h1>
-            <p>Una comunidad de nakamas y buen rollo.</p>
 
-           <button onclick="archivos()">
-           Investigar el botín
-           </button>
 
-           <button class="btnFondo" onclick="cambiarFondoAleatorio()">
-           🌌
-           </button>
+            <p>
+                Una comunidad de nakamas y buen rollo.
+            </p>
+
+
+            <button onclick="archivos()">
+                Investigar el botín
+            </button>
+
+
+            <br><br><br>
+
+
+            <div id="tripulacion"></div>
+
+
+            <button class="btnFondo" onclick="cambiarFondoAleatorio()">
+                🌌
+            </button>
+
 
         </section>
     `;
+
+
+    console.log("INICIO LLAMANDO A TRIPULACION");
+
+
+    cargarTripulacion();
+
 }
 
 /* =========================
