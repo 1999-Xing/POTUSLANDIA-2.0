@@ -1007,7 +1007,7 @@ function discord(){
 function abrirDiscord(){
 
     window.open(
-        "AQUI_PONES_EL_ENLACE_DE_INVITACION",
+        "https://discord.gg/9HmZhRUK4H",
         "_blank"
     );
 
