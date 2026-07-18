@@ -13,9 +13,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
 </head>
 
+
 <body>
+
 
     <nav>
 
@@ -23,7 +26,9 @@
             ⚓ Potuslandia
         </div>
 
+
         <ul class="menu" id="menuPrincipal">
+
 
             <li>
                 <a href="#" onclick="inicio(); return false;">
@@ -31,11 +36,13 @@
                 </a>
             </li>
 
+
             <li>
                 <a href="#" onclick="archivos(); return false;">
                     Archivos
                 </a>
             </li>
+
 
             <li>
                 <a href="#" onclick="comunidad(); return false;">
@@ -43,13 +50,19 @@
                 </a>
             </li>
 
+
         </ul>
+
+
 
         <!-- PERFIL USUARIO -->
 
+
         <div id="menuUsuario">
 
-            <div id="perfilBtn" onclick="toggleMenu()">
+
+            <div id="perfilBtn" onclick="toggleMenu">
+
 
                 <img
                     id="fotoUsuario"
@@ -57,15 +70,21 @@
                     alt="Usuario"
                 >
 
+
                 <span id="nombreUsuario"></span>
+
 
                 <span id="flechaMenu">
                     ▼
                 </span>
 
+
             </div>
 
+
+
             <div id="menuDesplegable">
+
 
                 <div
                     class="menuItem"
@@ -74,19 +93,25 @@
                 >
                     ⚙️ Panel Admin
                 </div>
-                
+
+
                 <div 
-                class="menuItem"
-                onclick="misFavoritos()"
+                    class="menuItem"
+                    onclick="misFavoritos()"
                 >
-                🌟 Favoritos
+                    🌟 Favoritos
                 </div>
+
+
 
                 <div class="menuItem">
                     👤 Mi perfil
                 </div>
 
+
                 <hr>
+
+
 
                 <div
                     class="menuItem salir"
@@ -95,18 +120,44 @@
                     🚪 Cerrar sesión
                 </div>
 
+
+
             </div>
+
 
         </div>
 
+
     </nav>
 
+
+
+
     <div id="fondo"></div>
-    
+
+
+
     <div id="contenido"></div>
 
+
+
+    <!-- BOTÓN CAMBIAR FONDO SIEMPRE VISIBLE -->
+
+    <button 
+        id="botonFondo" 
+        class="btnFondo" 
+        onclick="cambiarFondoAleatorio()"
+    >
+        🌌
+    </button>
+
+
+
+
     <script src="data/recursos.js"></script>
+
     <script src="script.js"></script>
+
 
 </body>
 
