@@ -774,8 +774,8 @@ function miPerfil() {
                 ${new Date(fecha).toLocaleDateString("es-ES")}
             </p>
 
-            <p>
-                🟢 Estado: Navegando
+            <p id="estadoPerfil">
+                📜 La capitana está contando a los nakamas a bordo...
             </p>
 
             <br>
@@ -791,6 +791,54 @@ function miPerfil() {
         </section>
 
     `;
+
+
+    comprobarEstadoPerfil();
+
+}
+
+
+/* =========================
+   ESTADO DEL TRIPULANTE
+========================= */
+
+function comprobarEstadoPerfil(){
+
+    if(!auth.currentUser) return;
+
+
+    const uid = auth.currentUser.uid;
+
+
+    const referencia = rtdb.ref("presencia/" + uid);
+
+
+    referencia.on("value", snapshot => {
+
+
+        const estado = document.getElementById("estadoPerfil");
+
+
+        if(!estado) return;
+
+
+
+        if(snapshot.exists()){
+
+
+            estado.innerHTML = "  📝Estás es la lista UwU (online).";
+
+
+        } else {
+
+
+            estado.innerHTML = "💤 Soñando*.";
+
+
+        }
+
+
+    });
 
 }
 
@@ -1448,8 +1496,8 @@ function miPerfil() {
 
                 <br>
 
-                <p>
-                    🟢 Navegando
+                <p id="estadoPerfil">
+                    📜 La capitana está contando a los nakamas a bordo...
                 </p>
 
                 <br>
@@ -1463,6 +1511,9 @@ function miPerfil() {
         </section>
 
     `;
+
+
+    comprobarEstadoPerfil();
 
 }
 
