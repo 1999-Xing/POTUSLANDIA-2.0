@@ -652,3 +652,47 @@ a{
     max-width:700px;
 
 }
+
+/* =========================
+   PANEL TRIPULACIÓN
+========================= */
+
+#tripulacion{
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 18px 28px;
+
+    background: rgba(20, 35, 55, 0.70);
+
+    border: 2px solid rgba(255,255,255,0.18);
+
+    border-radius: 18px;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+
+    min-width: 280px;
+
+}
+
+#tripulacion h3{
+
+    margin: 0 0 14px 0;
+
+    color: #ffffff;
+
+    font-size: 1.2rem;
+
+}
+
+#tripulacion p{
+
+    margin: 8px 0;
+
+    font-size: 1rem;
+
+}
