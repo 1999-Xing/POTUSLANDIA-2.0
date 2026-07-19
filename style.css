@@ -696,3 +696,98 @@ a{
     font-size: 1rem;
 
 }
+
+/* =========================
+   MI PERFIL
+========================= */
+
+.fotoPerfilGrande{
+
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid rgba(255,255,255,.25);
+
+    box-shadow:0 0 20px rgba(0,0,0,.35);
+
+}
+
+.cajaPerfil{
+
+    max-width:500px;
+
+    margin:auto;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+.cajaPerfil p{
+
+    margin:8px 0;
+
+}
+
+.uidCaja{
+
+    margin:15px auto;
+
+    padding:12px;
+
+    max-width:420px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    font-family:monospace;
+
+    word-break:break-all;
+
+}
+
+.btnCopiar{
+
+    margin-top:10px;
+
+}
+
+/* =========================
+   FICHA PERFIL TRIPULANTE
+========================= */
+
+.carnetPerfil {
+
+    background: rgba(0, 0, 0, 0.55);
+
+    border: 2px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    width: 90%;
+
+    max-width: 450px;
+
+    margin: 30px auto;
+
+    text-align: center;
+
+    backdrop-filter: blur(8px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+
+}

@@ -300,6 +300,156 @@ presenciaRef.onDisconnect().remove();
 
 });
 
+let ultimaFraseTripulacion = "";
+
+const FRASES_TRIPULACION = {
+
+    vacio: [
+        "🌊 El barco está tan tranquilo que hasta las gaviotas están echando una siesta.",
+        "⚓ No hay ningún nakama en cubierta... ¿Seguro que esto no es un barco fantasma?",
+        "💤 La capitana tiene la cubierta para ella sola. Hora de hablar con los barriles.",
+        "🐙 Hasta el pulpo del puerto se ha ido porque aquí no pasa nada.",
+        "🦜 El loro de a bordo está repitiendo 'aburrido' desde hace una hora.",
+        "🌙 La cubierta está tan silenciosa que se escucha a una vela crujir.",
+        "🚢 Potuslandia navega en modo fantasma... ¡nadie toca el timón!",
+        "🐟 Los peces miran el barco y preguntan: '¿Hoy no hay fiesta?'",
+        "⚓ La tripulación está desaparecida. Probablemente buscando snacks.",
+        "🧭 La brújula está funcionando, pero no sabe a quién guiar."
+    ],
+
+    uno: [
+        "🚢 Solo hay un nakama al mando. Esperemos que sepa distinguir proa de popa.",
+        "☕ Un único nakama vigila la cubierta... seguramente con café en mano.",
+        "🧭 Alguien tiene el timón. Ahora solo falta recordar hacia dónde vamos.",
+        "⚓ Un héroe solitario navega el Potuslandia. Los barriles le apoyan.",
+        "🐟 Un nakama en cubierta. Los peces ya están impresionados.",
+        "🏴 El barco tiene capitán, marinero y cocinero... todo en una sola persona.",
+        "🌊 La aventura empieza con un nakama. Los demás llegarán cuando huelan comida.",
+        "🪢 Una persona, mil tareas. La vela no se va a levantar sola.",
+        "🦜 El loro tiene más compañía que la tripulación ahora mismo.",
+        "🚢 Un nakama controla el barco. Esperemos que no haya botón de autodestrucción."
+    ],
+
+    pocos: [
+        "🪢 La tripulación empieza a desperezarse. Alguien acaba de encontrar la cafetera.",
+        "🐟 Los peces empiezan a notar movimiento alrededor del barco.",
+        "⚓ Ya hay suficientes manos para izar una vela... aunque alguien tendrá que empujar.",
+        "🌊 Potuslandia vuelve a tener vida. Los barriles están emocionados.",
+        "🍪 La tripulación crece lentamente... igual que la montaña de galletas.",
+        "🧹 Ya hay gente suficiente para limpiar la cubierta. Qué mala suerte.",
+        "🦜 El loro está feliz. Por fin tiene más personas a las que molestar.",
+        "🚢 Varias velas arriba y ningún marinero perdido. De momento.",
+        "⚓ La tripulación está reuniéndose. El caos organizado comienza.",
+        "🧭 Más manos, más aventuras y probablemente más cosas rotas."
+    ],
+
+    varios: [
+        "🚢 Potuslandia navega con buen viento y mejor compañía.",
+        "🍌 Alguien ha dejado un plátano en cubierta... otra vez.",
+        "🌊 La cubierta empieza a llenarse de vida.",
+        "⚓ La tripulación ya puede montar una pequeña fiesta sin hundir el barco.",
+        "🦜 El loro acaba de aprender nuevos nombres para gritar por la mañana.",
+        "🍕 Hay suficientes nakamas para organizar una batalla por la última porción.",
+        "🚢 El barco avanza fuerte. Incluso los barriles parecen motivados.",
+        "🌴 La tripulación crece y las historias también.",
+        "🐙 Los monstruos marinos están pensando dos veces antes de acercarse.",
+        "🧭 Ya somos suficientes para perdernos en grupo."
+    ],
+
+    muchos: [
+        "🪝 La capitana ya no da abasto saludando a todos los nakamas.",
+        "⚓ El barco ya parece una auténtica tripulación pirata.",
+        "🏴 Las velas están desplegadas y el viaje promete.",
+        "🌊 Hay tanta gente en cubierta que hasta las olas piden permiso.",
+        "🍲 El cocinero ha pedido ayuda porque desaparece la comida misteriosamente.",
+        "🚢 Potuslandia está llena de voces, risas y alguna que otra pelea por tonterías.",
+        "🪢 Hay tantxs nakamas que alguien ha perdido a alguien... y era él mismo.",
+        "🐟 Los peces ya reconocen el barco por el ruido.",
+        "⚓ La tripulación está completa. Ahora falta recordar dónde aparcamos.",
+        "🦑 Hasta las criaturas marinas quieren unirse al viaje."
+    ],
+
+    multitud: [
+        "🐙 Incluso los pulpos quieren unirse a la tripulación.",
+        "🌊 ¡La cubierta está hasta arriba de nakamas!",
+        "🪢 Si alguien grita '¡Tierra!', lo van a escuchar hasta los peces.",
+        "🚢 Potuslandia necesita ampliar la cubierta. Los barriles ya no caben.",
+        "🦜 El loro está confundido porque ya no sabe a quién insultar primero.",
+        "⚓ Hay tanta tripulación que alguien acaba de pedir un mapa del propio barco.",
+        "🌊 Las olas miran el barco y dicen: 'Demasiados pasajeros'.",
+        "🍌 La comida desaparece tan rápido que parece magia.",
+        "🏴 La bandera ondea fuerte. Probablemente por la cantidad de gente empujando.",
+        "🐋 Una ballena se acercó solo para comprobar qué está pasando."
+    ],
+
+    legendario: [
+        "🐋 Una ballena acaba de asomarse para cotillear qué está pasando.",
+        "🚢 Si seguimos embarcando nakamas habrá que construir otro barco.",
+        "👑 ¡La cubierta está tan llena que las gaviotas tienen que pedir turno para aterrizar!",
+        "🌊 Potuslandia ya no navega... desfila por el océano.",
+        "⚓ Hay tantxs nakamas que el barco necesita una lista de asistencia.",
+        "🦜 El loro se ha jubilado porque no puede saludar a tanta gente.",
+        "🐙 Los monstruos marinos están pensando en pedir autógrafos.",
+        "🚢 La tripulación es tan grande que alguien está perdido desde ayer.",
+        "🏴 La capitana mira la cubierta y pregunta: '¿Todxs cabemos aquí?'",
+        "🌌 Hasta las estrellas miran abajo para contar cuántxs nakamas hay."
+    ]
+
+};
+
+function obtenerFraseTripulacion(activos){
+
+    let lista;
+
+    if(activos === 0){
+
+        lista = FRASES_TRIPULACION.vacio;
+
+    }else if(activos === 1){
+
+        lista = FRASES_TRIPULACION.uno;
+
+    }else if(activos <= 5){
+
+        lista = FRASES_TRIPULACION.pocos;
+
+    }else if(activos <= 15){
+
+        lista = FRASES_TRIPULACION.varios;
+
+    }else if(activos <= 30){
+
+        lista = FRASES_TRIPULACION.muchos;
+
+    }else if(activos <= 60){
+
+        lista = FRASES_TRIPULACION.multitud;
+
+    }else{
+
+        lista = FRASES_TRIPULACION.legendario;
+
+    }
+
+
+    let frase;
+
+
+    do {
+
+        frase = lista[Math.floor(Math.random() * lista.length)];
+
+    } while(frase === ultimaFraseTripulacion && lista.length > 1);
+
+
+
+    ultimaFraseTripulacion = frase;
+
+
+    return frase;
+
+}
+
 /* =========================
    ESTADO DE LA TRIPULACIÓN
 ========================= */
@@ -308,55 +458,47 @@ function cargarTripulacion(){
 
     const referencia = rtdb.ref("presencia");
 
-
     referencia.on("value", async snapshot => {
-
 
         const activos = snapshot.exists()
             ? Object.keys(snapshot.val()).length
             : 0;
 
-
-
         const usuariosSnapshot = await db
             .collection("usuarios")
             .get();
 
-
-
         const totalUsuarios = usuariosSnapshot.size;
-
-
 
         const enPuerto = totalUsuarios - activos;
 
-
-
         const totalTexto = document.getElementById("tripulacion");
-
-
 
         if(!totalTexto) return;
 
-
+        const frase = obtenerFraseTripulacion(activos);
 
         totalTexto.innerHTML = `
 
-            <h3>⚓ Estado de la tripulación:</h3>
+            <h3>⚓ Estado de la tripulación</h3>
 
             <p>
-                🔵 Navegando: ${activos}
+                🟢 Nakamas a bordo: ${activos}
             </p>
 
             <p>
-                ⚪ En puerto: ${enPuerto}
+                ⚪ Descansando: ${enPuerto}
+            </p>
+
+            <br>
+
+            <p class="fraseTripulacion">
+                ${frase}
             </p>
 
         `;
 
-
     });
-
 
 }
 
@@ -566,6 +708,113 @@ async function misFavoritos(){
 
 
     mostrar(listaFavoritos, favoritosUsuario);
+
+}
+
+/* =========================
+   MI PERFIL
+========================= */
+
+function miPerfil() {
+
+    if (!auth.currentUser) {
+
+        mostrarMensaje("Debes iniciar sesión.");
+        return;
+
+    }
+
+    const usuario = auth.currentUser;
+
+    const fecha = usuario.metadata.creationTime;
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero cajaPerfil">
+
+            <h1>👤 Mi perfil</h1>
+
+            <br>
+
+            <img
+                src="${usuario.photoURL}"
+                class="fotoPerfilGrande"
+            >
+
+            <br><br>
+
+            <h2>${usuario.displayName}</h2>
+
+            <p>
+                📧 ${usuario.email}
+            </p>
+
+            <br>
+
+            <p><strong>🆔 ID de tripulante</strong></p>
+
+            <div
+                id="miUID"
+                class="uidCaja"
+            >
+                ${usuario.uid}
+            </div>
+
+            <button
+                class="btnCopiar"
+                onclick="copiarUID()"
+            >
+                📋 Copiar ID
+            </button>
+
+            <br><br>
+
+            <p>
+                📅 Miembro desde:<br>
+                ${new Date(fecha).toLocaleDateString("es-ES")}
+            </p>
+
+            <p>
+                🟢 Estado: Navegando
+            </p>
+
+            <br>
+
+            <p><i>⚓ Todo gran viaje comienza con subir a bordo.</i></p>
+
+            <br>
+
+            <button onclick="inicio()">
+                ⬅ Volver
+            </button>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   COPIAR UID
+========================= */
+
+function copiarUID(){
+
+    if(!auth.currentUser) return;
+
+    navigator.clipboard.writeText(auth.currentUser.uid)
+        .then(() => {
+
+            mostrarMensaje("🐙 El pulpo de cubierta te ha prestado su tinta para que anotes el ID.");
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            mostrarMensaje("🌊 Una ola ha movido el barco. No se pudo guardar tu ID.");
+
+        });
 
 }
 
@@ -802,21 +1051,30 @@ function mostrarMensaje(texto){
     const mensaje = document.createElement("div");
 
     mensaje.className = "mensajeTemporal";
+
     mensaje.innerHTML = texto;
 
     document.body.appendChild(mensaje);
 
+
     setTimeout(() => {
+
         mensaje.classList.add("mostrar");
+
     }, 50);
+
 
     setTimeout(() => {
 
         mensaje.classList.remove("mostrar");
 
+
         setTimeout(() => {
+
             mensaje.remove();
+
         }, 300);
+
 
     }, 3000);
 
@@ -1110,6 +1368,101 @@ function abrirDiscord(){
         "https://discord.gg/9HmZhRUK4H",
         "_blank"
     );
+
+}
+
+/* =========================
+   MI PERFIL
+========================= */
+
+function miPerfil() {
+
+    if (!auth.currentUser) {
+
+        mostrarMensaje("Debes iniciar sesión.");
+        return;
+
+    }
+
+    const usuario = auth.currentUser;
+
+    const fecha = usuario.metadata.creationTime;
+
+    const fechaTexto = new Date(fecha).toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long"
+    });
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <div class="carnetPerfil">
+
+                <h2>⚓ POTUSLANDIA</h2>
+
+                <br>
+
+                <img
+                    src="${usuario.photoURL}"
+                    class="fotoPerfilGrande"
+                >
+
+                <br><br>
+
+                <h1>${usuario.displayName}</h1>
+
+                <h3>⚓ Tripulante</h3>
+
+                <br>
+
+                <p>
+                    📧 ${usuario.email}
+                </p>
+
+                <br>
+
+                <p><strong>🆔 ID de tripulante</strong></p>
+
+                <div
+                    class="uidCaja"
+                    id="miUID"
+                >
+                    ${usuario.uid}
+                </div>
+
+                <br>
+
+                <button
+                    class="btnCopiar"
+                    onclick="copiarUID()"
+                >
+                    📋 Copiar ID
+                </button>
+
+                <br><br>
+
+                <p><strong>📅 A bordo desde</strong></p>
+
+                <p>${fechaTexto}</p>
+
+                <br>
+
+                <p>
+                    🟢 Navegando
+                </p>
+
+                <br>
+
+                <button onclick="inicio()">
+                    ⬅ Volver
+                </button>
+
+            </div>
+
+        </section>
+
+    `;
 
 }
 
