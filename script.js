@@ -726,7 +726,18 @@ function miPerfil() {
 
     const usuario = auth.currentUser;
 
-    const fecha = usuario.metadata.creationTime;
+    const fecha = new Date(usuario.metadata.creationTime);
+
+    const fechaTexto = fecha.toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+    const horaTexto = fecha.toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
 
     document.getElementById("contenido").innerHTML = `
 
@@ -769,10 +780,23 @@ function miPerfil() {
 
             <br><br>
 
+            <p><strong>📅 A bordo desde</strong></p>
+
             <p>
-                📅 Miembro desde:<br>
-                ${new Date(fecha).toLocaleDateString("es-ES")}
+                ${fechaTexto}
+                <br>
+                ${horaTexto}
             </p>
+
+            <br>
+
+            <p><strong>⏳ Tiempo navegando:</strong></p>
+
+            <p id="tiempoNavegando">
+                Calculando...
+            </p>
+
+            <br>
 
             <p id="estadoPerfil">
                 📜 La capitana está contando a los nakamas a bordo...
@@ -792,11 +816,78 @@ function miPerfil() {
 
     `;
 
-
     comprobarEstadoPerfil();
 
 }
 
+/* =========================
+   TIEMPO NAVEGANDO
+========================= */
+
+function actualizarTiempoNavegando(fechaRegistro){
+
+    const ahora = new Date();
+
+    let diferencia = Math.floor((ahora - fechaRegistro) / 1000);
+
+
+    const dias = Math.floor(diferencia / 86400);
+
+    diferencia %= 86400;
+
+
+    const horas = Math.floor(diferencia / 3600);
+
+    diferencia %= 3600;
+
+
+    const minutos = Math.floor(diferencia / 60);
+
+
+    const elemento = document.getElementById("tiempoNavegando");
+
+
+    if(!elemento) return;
+
+
+    let texto = "";
+
+
+    if(dias > 0){
+
+        texto += `${dias} día${dias !== 1 ? "s" : ""}`;
+
+    }
+
+
+    if(horas > 0){
+
+        if(texto !== "") texto += "<br>";
+
+        texto += `${horas} hora${horas !== 1 ? "s" : ""}`;
+
+    }
+
+
+    if(minutos > 0){
+
+        if(texto !== "") texto += "<br>";
+
+        texto += `${minutos} minuto${minutos !== 1 ? "s" : ""}`;
+
+    }
+
+
+    if(texto === ""){
+
+        texto = "Recién embarcado ⚓";
+
+    }
+
+
+    elemento.innerHTML = texto;
+
+}
 
 /* =========================
    ESTADO DEL TRIPULANTE
@@ -806,37 +897,25 @@ function comprobarEstadoPerfil(){
 
     if(!auth.currentUser) return;
 
-
     const uid = auth.currentUser.uid;
-
 
     const referencia = rtdb.ref("presencia/" + uid);
 
-
     referencia.on("value", snapshot => {
-
 
         const estado = document.getElementById("estadoPerfil");
 
-
         if(!estado) return;
-
-
 
         if(snapshot.exists()){
 
-
-            estado.innerHTML = "  📝Estás es la lista UwU (online).";
-
+            estado.innerHTML = "🟢 La capitana confirma que sigues a bordo.";
 
         } else {
 
-
-            estado.innerHTML = "💤 Soñando*.";
-
+            estado.innerHTML = "💤 La capitana marca tu nombre como descansando.";
 
         }
-
 
     });
 
@@ -1434,11 +1513,17 @@ function miPerfil() {
 
     const usuario = auth.currentUser;
 
-    const fecha = usuario.metadata.creationTime;
+    const fecha = new Date(usuario.metadata.creationTime);
 
-    const fechaTexto = new Date(fecha).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long"
+    const fechaTexto = fecha.toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+    const horaTexto = fecha.toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit"
     });
 
     document.getElementById("contenido").innerHTML = `
@@ -1490,9 +1575,21 @@ function miPerfil() {
 
                 <br><br>
 
-                <p><strong>📅 A bordo desde</strong></p>
+                <p><strong>📅 A bordo desde...</strong></p>
 
-                <p>${fechaTexto}</p>
+                <p>
+                    ${fechaTexto}
+                    <br>
+                    ${horaTexto}
+                </p>
+
+                <br>
+
+                <p><strong>⏳ Tiempo navegando</strong></p>
+
+                <p id="tiempoNavegando">
+                    Calculando...
+                </p>
 
                 <br>
 
@@ -1514,6 +1611,20 @@ function miPerfil() {
 
 
     comprobarEstadoPerfil();
+
+
+    const fechaRegistro = new Date(usuario.metadata.creationTime);
+
+
+    actualizarTiempoNavegando(fechaRegistro);
+
+
+    setInterval(() => {
+
+        actualizarTiempoNavegando(fechaRegistro);
+
+    }, 1000);
+
 
 }
 
