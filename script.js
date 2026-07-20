@@ -14,6 +14,10 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const rtdb = firebase.database();
 
+
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+
 console.log("Realtime Database:", rtdb);
 
 /* =========================
