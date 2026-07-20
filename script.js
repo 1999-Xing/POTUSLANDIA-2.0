@@ -17,6 +17,30 @@ const rtdb = firebase.database();
 console.log("Realtime Database:", rtdb);
 
 /* =========================
+   PISTAS SECRETAS
+========================= */
+
+const pistasSecretas = [
+
+    "🔍 La tripulación más curiosa siempre encuentra algo que otrxs pasan por alto.",
+
+    "🗺️ No todos los caminos aparecen dibujados en el mapa.",
+
+    "⚓ Un buen marinerx sabe que debe revisar cada rincón del barco.",
+
+    "🐙 El pulpo de cubierta ha encontrado algo... pero dice que está escondido a simple vista.",
+
+    "🌊 Bajo la cubierta puede haber más de lo que parece.",
+
+    "🏴‍☠️ Los grandes tesoros suelen esconderse donde nadie mira.",
+
+    "🔐 Algunos cofres no tienen llave... solo necesitan que alguien los encuentre.",
+
+    "🦜 El loro de cubierta dice que ha visto algo raro... aunque pocxs le creen."
+
+];
+
+/* =========================
    FONDOS ALEATORIOS
 ========================= */
 
@@ -45,34 +69,52 @@ function cambiarFondoAleatorio(){
     if(!capaFondo){
 
         document.body.style.backgroundImage = `url('${fondo}')`;
-        return;
+
+    } else {
+
+
+        capaFondo.style.opacity = "0";
+
+
+        setTimeout(()=>{
+
+            capaFondo.style.backgroundImage = `url('${fondo}')`;
+
+            capaFondo.style.opacity = "1";
+
+
+        },500);
 
     }
-
-
-    capaFondo.style.opacity = "0";
-
-
-    setTimeout(()=>{
-
-        capaFondo.style.backgroundImage = `url('${fondo}')`;
-
-        capaFondo.style.opacity = "1";
-
-
-    },500);
 
 }
 
 
-cambiarFondoAleatorio();
+/* =========================
+   PISTAS SECRETAS
+========================= */
 
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .catch(error => {
-        console.error("Error al configurar la persistencia:", error);
-    });
+function mostrarPistaSecreta(){
 
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const pista = pistasSecretas[
+        Math.floor(Math.random() * pistasSecretas.length)
+    ];
+
+
+    mostrarMensaje(pista);
+
+}
+
+
+/* =========================
+   FONDO INICIAL AL CARGAR
+========================= */
+
+window.addEventListener("load", () => {
+
+    cambiarFondoAleatorio();
+
+});
 
 /* =========================
    ADMIN EMAILS
@@ -790,7 +832,7 @@ function miPerfil() {
 
             <br>
 
-            <p><strong>⏳ Tiempo navegando:</strong></p>
+            <p><strong>⏳ Tiempo navegando: </strong></p>
 
             <p id="tiempoNavegando">
                 Calculando...
