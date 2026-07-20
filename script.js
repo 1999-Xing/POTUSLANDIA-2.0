@@ -1581,6 +1581,8 @@ function miPerfil() {
                 <img
                     src="${usuario.photoURL}"
                     class="fotoPerfilGrande"
+                    id="fotoSecreta"
+                    onclick="clicFotoSecreta()"
                 >
 
                 <br><br>
@@ -1651,15 +1653,11 @@ function miPerfil() {
 
     `;
 
-
     comprobarEstadoPerfil();
-
 
     const fechaRegistro = new Date(usuario.metadata.creationTime);
 
-
     actualizarTiempoNavegando(fechaRegistro);
-
 
     setInterval(() => {
 
@@ -1667,6 +1665,155 @@ function miPerfil() {
 
     }, 1000);
 
+}
+
+/* =========================
+   FOTO SECRETA
+========================= */
+
+let clicksFotoSecreta = 0;
+
+function clicFotoSecreta(){
+
+    clicksFotoSecreta++;
+
+    switch(clicksFotoSecreta){
+
+        case 1:
+            mostrarMensaje("📜 La capitana te dedica una mirada curiosa.");
+            break;
+
+        case 2:
+            mostrarMensaje("👀 Parece que buscas algo...");
+            break;
+
+        case 3:
+            mostrarMensaje("⚓ Hay nakamas que nunca dejan de explorar.");
+            break;
+
+        case 4:
+            mostrarMensaje("🐙 El pulpo de cubierta parece querer enseñarte algo.");
+            break;
+
+        case 5:
+
+            mostrarSecretoDescubierto();
+
+            // Reinicia el contador para poder volver a descubrir el secreto
+            clicksFotoSecreta = 0;
+
+            break;
+
+    }
+
+}
+
+
+/* =========================
+   CARTEL SECRETO DESCUBIERTO
+========================= */
+
+function mostrarSecretoDescubierto(){
+
+    console.log("🔓 SECRETO DESBLOQUEADO");
+
+
+    const cartel = document.createElement("div");
+
+    cartel.id = "cartelSecreto";
+
+
+    cartel.innerHTML = `
+
+        <div class="contenidoSecreto aparecerPixel">
+
+            <h2>
+                🔓 SECRETO DESCUBIERTO
+            </h2>
+
+
+            <p>
+                🏴‍☠️ La capitana sonríe.
+            </p>
+
+
+            <p>
+                Has demostrado ser un nakama persistente.
+            </p>
+
+
+            <p>
+                Como recompensa, Soporte comparte contigo
+                la ubicación de un pequeño tesoro escondido.
+            </p>
+
+
+            <p>
+                🎬 Cofre de películas
+            </p>
+
+
+            <button
+                onclick="abrirCofre()"
+            >
+                🎬 Abrir el cofre
+            </button>
+
+
+            <button
+                class="botonEsconder"
+                onclick="cerrarSecreto()"
+            >
+                Esconder
+            </button>
+
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(cartel);
+
+}
+
+
+
+/* =========================
+   ABRIR COFRE SECRETO
+========================= */
+
+function abrirCofre(){
+
+    console.log("🎬 Cofre abierto");
+
+
+    window.open(
+        "https://gofile.io/d/g6sTYT",
+        "_blank"
+    );
+
+
+    cerrarSecreto();
+
+}
+
+
+
+/* =========================
+   CERRAR CARTEL SECRETO
+========================= */
+
+function cerrarSecreto(){
+
+    const cartel = document.getElementById("cartelSecreto");
+
+
+    if(cartel){
+
+        cartel.remove();
+
+    }
 
 }
 

@@ -221,7 +221,7 @@ nav{
 
 .menuItem.salir:hover{
 
-    background:#7f1d1d;
+    background:red;
 
 }
 
@@ -716,6 +716,7 @@ a{
 
 }
 
+
 .cajaPerfil{
 
     max-width:500px;
@@ -734,11 +735,13 @@ a{
 
 }
 
+
 .cajaPerfil p{
 
     margin:8px 0;
 
 }
+
 
 .uidCaja{
 
@@ -758,11 +761,13 @@ a{
 
 }
 
+
 .btnCopiar{
 
     margin-top:10px;
 
 }
+
 
 /* =========================
    FICHA PERFIL TRIPULANTE
@@ -789,5 +794,155 @@ a{
     backdrop-filter: blur(8px);
 
     box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+
+}
+
+
+/* =========================
+   CARTEL SECRETO
+========================= */
+
+#cartelSecreto {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.75);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+
+}
+
+
+.contenidoSecreto {
+
+    background: rgba(20, 30, 40, 0.95);
+
+    width: 420px;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    border: 3px solid #c9a227;
+
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+
+    color: white;
+
+}
+
+
+.contenidoSecreto h2 {
+
+    margin-bottom: 20px;
+
+}
+
+
+/* Botones del cartel */
+
+.contenidoSecreto button {
+
+    display: block;
+
+    margin: 15px auto;
+
+    padding: 12px 25px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+
+/* Botón esconder */
+
+.botonEsconder {
+
+    font-size: 14px !important;
+
+    padding: 8px 18px !important;
+
+    background: #161b22;
+
+    color: white;
+
+}
+
+
+.botonEsconder:hover {
+
+    background: red;
+
+}
+
+/* =========================
+   ANIMACIÓN PIXEL SECRETO
+========================= */
+
+.aparecerPixel {
+
+    animation: aparecerPixel 2s steps(12);
+
+}
+
+
+@keyframes aparecerPixel {
+
+    0% {
+
+        opacity:0;
+
+        clip-path: inset(50% 50% 50% 50%);
+
+    }
+
+
+    25% {
+
+        clip-path: inset(35% 35% 35% 35%);
+
+    }
+
+
+    50% {
+
+        clip-path: inset(15% 15% 15% 15%);
+
+    }
+
+
+    75% {
+
+        clip-path: inset(5% 5% 5% 5%);
+
+    }
+
+
+    100% {
+
+        opacity:1;
+
+        clip-path: inset(0 0 0 0);
+
+    }
 
 }
