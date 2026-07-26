@@ -946,3 +946,264 @@ a{
     }
 
 }
+
+/* =========================
+   COLORES TARJETAS TESORO
+========================= */
+
+.card.azul {
+
+    background: #1769aa;
+
+}
+
+
+.card.verde {
+
+    background: #27863a;
+
+}
+
+
+.card.amarillo {
+
+    background: #c99b00;
+
+}
+
+
+.card.rojo {
+
+    background: #b52b35;
+
+}
+
+
+/* =========================
+   ESTILO GENERAL TARJETAS
+========================= */
+
+.card {
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+
+.card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+}
+
+/* =========================
+   TESORO - BUSCADOR
+========================= */
+
+.buscadorTesoro {
+
+    width: 80%;
+
+    max-width: 450px;
+
+    padding: 12px 18px;
+
+    border-radius: 20px;
+
+    border: 2px solid #1769aa;
+
+    font-size: 16px;
+
+    outline: none;
+
+    margin-top: 15px;
+
+}
+
+
+.buscadorTesoro:focus {
+
+    box-shadow: 0 0 10px rgba(23,105,170,0.5);
+
+}
+
+/* =========================
+   TESORO - FILTRO CATEGORÍAS
+========================= */
+
+.zonaFiltro {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin: 30px 0;
+
+}
+
+.filtroCategorias {
+
+    padding: 12px 20px;
+
+    border-radius: 20px;
+
+    border: 2px solid #1769aa;
+
+    background: #0b2d45;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    min-width: 260px;
+
+    text-align: center;
+
+    outline: none;
+
+}
+
+
+.filtroCategorias:hover {
+
+    box-shadow: 0 0 12px rgba(23,105,170,0.6);
+
+}
+
+/* =========================
+   MENU MAPA TESORO
+========================= */
+
+.selectorTesoro {
+
+    position: relative;
+
+    display: inline-flex;
+
+    justify-content: center;
+
+    margin: 20px auto;
+
+}
+
+
+
+/* =========================
+   BOTON CATEGORIAS
+========================= */
+
+.botonCategorias {
+
+    width: 230px;
+
+    padding: 8px 15px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    background: rgba(11,45,69,0.35);
+
+    backdrop-filter: blur(5px);
+
+    color: white;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+
+#flechaCategorias {
+
+    transition: transform 0.3s ease;
+
+}
+
+
+
+#flechaCategorias.girada {
+
+    transform: rotate(180deg);
+
+}
+
+
+
+/* =========================
+   DESPLEGABLE CATEGORIAS
+========================= */
+
+.menuCategorias {
+
+    display: none;
+
+    position: absolute;
+
+    top: calc(100% + 8px);
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 230px;
+
+    max-height: 250px;
+
+    overflow-y: auto;
+
+    background: rgba(11,45,69,0.75);
+
+    backdrop-filter: blur(8px);
+
+    border-radius: 15px;
+
+    padding: 8px;
+
+    z-index: 999;
+
+}
+
+
+
+.menuCategorias.abierto {
+
+    display: block;
+
+}
+
+.opcionCategoria {
+
+    padding: 10px;
+
+    color: white;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+}
+
+
+
+.opcionCategoria:hover {
+
+    background: rgba(255,255,255,0.15);
+
+}

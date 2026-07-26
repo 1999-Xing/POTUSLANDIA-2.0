@@ -559,27 +559,21 @@ function inicio() {
 
             <h1>¡Bienvenidx a bordo!</h1>
 
-
             <p>
                 Una comunidad de nakamas y buen rollo.
             </p>
-
 
             <button onclick="archivos()">
                 Investigar el botín
             </button>
 
-
             <br><br><br>
 
-
             <div id="tripulacion"></div>
-
 
             <button class="btnFondo" onclick="cambiarFondoAleatorio()">
                 🌌
             </button>
-
 
         </section>
     `;
@@ -603,6 +597,109 @@ async function getRecursos() {
         id: doc.id,
         ...doc.data()
     }));
+}
+
+/* =========================
+   FILTRAR TESORO POR CATEGORIA
+========================= */
+
+async function filtrarTarjeta(categoria) {
+
+
+    const datos = await getRecursos();
+
+
+    const favoritosUsuario = await getFavoritosUsuario();
+
+
+    const tarjetas = await getTarjetas();
+
+
+
+    let filtrados;
+
+
+
+    if(categoria === "todas"){
+
+
+        filtrados = datos;
+
+
+    } else {
+
+
+        filtrados = datos.filter(r =>
+
+            r.categoria === categoria
+
+        );
+
+
+    }
+
+
+
+    mostrar(
+
+        filtrados,
+
+        favoritosUsuario,
+
+        tarjetas
+
+    );
+
+
+
+    // Cambiar nombre del botón del mapa
+
+    const boton = document.querySelector(".botonCategorias span:first-child");
+
+
+    if(boton){
+
+
+        if(categoria === "todas"){
+
+            boton.innerHTML = "🗺️ Mapa del Tesoro";
+
+        } else {
+
+            boton.innerHTML = "🗺️ " + categoria;
+
+        }
+
+
+    }
+
+
+
+    // Cerrar menú
+
+    const menu = document.getElementById("menuCategorias");
+
+
+    if(menu){
+
+        menu.classList.remove("abierto");
+
+    }
+
+
+
+    // Girar flecha de vuelta
+
+    const flecha = document.getElementById("flechaCategorias");
+
+
+    if(flecha){
+
+        flecha.classList.remove("girada");
+
+    }
+
+
 }
 
 /* =========================
@@ -643,40 +740,69 @@ async function panelAdmin() {
         return;
     }
 
+
     const user = auth.currentUser;
+
 
     if (!ADMIN_EMAILS.includes(user.email)) {
 
         document.getElementById("contenido").innerHTML = `
+
             <section class="hero">
+
                 <h1>⛔ Nakama no identificado </h1>
-                <button onclick="inicio()">Volver</button>
+
+                <button onclick="inicio()">
+                    Volver
+                </button>
+
             </section>
+
         `;
+
         return;
+
     }
 
+
+
     document.getElementById("contenido").innerHTML = `
+
         <section class="hero">
 
             <h1>⚙ Panel de Admin</h1>
 
+
             <input id="nombre" placeholder="Nombre"><br><br>
+
             <input id="descripcion" placeholder="Descripción"><br><br>
+
             <input id="categoria" placeholder="Categoría"><br><br>
+
             <input id="seccion" placeholder="Sección"><br><br>
+
             <input id="enlace" placeholder="Enlace de descarga"><br><br>
 
+
+
             <button onclick="guardarRecurso()">
+
                 ➕ Guardar
+
             </button>
+
 
             <button onclick="inicio()">
+
                 ⬅ Volver
+
             </button>
 
+
         </section>
+
     `;
+
 }
 
 /* =========================
@@ -685,75 +811,199 @@ async function panelAdmin() {
 
 async function archivos() {
 
+
     const datos = await getRecursos();
+
 
     const favoritosUsuario = await getFavoritosUsuario();
 
-    document.getElementById("contenido").innerHTML = `
-        <section class="hero">
 
-            <h1>📁 Tesoro</h1>
+    const tarjetas = await getTarjetas();
+
+
+
+
+    document.getElementById("contenido").innerHTML = `
+
+
+
+        <section class="hero heroTesoro">
+
+
+
+            <h1>
+                📁 Tesoro
+            </h1>
+
+
+
+            <p>
+                Explora todos los recursos de Potuslandia.
+            </p>
+
+
+
+
 
             <input 
+
                 id="buscador"
+
+                class="buscadorTesoro"
+
                 type="text"
+
                 placeholder="🔍 Buscar tesoro..."
+
                 oninput="buscar()"
-                style="padding:10px; width:80%; max-width:400px;"
+
             >
 
-            <p>Actualmente hay <strong id="contador">${datos.length}</strong></p>
-
-            <button onclick="inicio()">⬅ Volver</button>
-
-        </section>
-
-        <section class="cards" id="lista"></section>
-        `;
 
 
-        mostrar(datos, favoritosUsuario);
-
-        mostrarMensaje("⬇️ Los tesoros te esperan más abajo ^^.");
-
-}
 
 
-/* =========================
-   MIS FAVORITOS
-========================= */
+            <p>
 
-async function misFavoritos(){
+                Actualmente hay 
 
-    const favoritosUsuario = await getFavoritosUsuario();
+                <strong id="contador">
+                    ${datos.length}
+                </strong>
 
-    const datos = await getRecursos();
+                tesoros
 
-
-    const listaFavoritos = datos.filter(r =>
-        favoritosUsuario.includes(r.id)
-    );
+            </p>
 
 
-    document.getElementById("contenido").innerHTML = `
 
-        <section class="hero">
 
-            <h1>🌟 Mis favoritos</h1>
 
             <button onclick="inicio()">
+
                 ⬅ Volver
+
             </button>
+
+
 
         </section>
 
 
-        <section class="cards" id="lista"></section>
+
+
+
+
+
+
+        <div class="zonaFiltro">
+
+
+
+            <div class="selectorTesoro">
+
+
+
+                <button
+
+                    class="botonCategorias"
+
+                    onclick="abrirCategorias()"
+
+                >
+
+                    <span>
+                        🗺️ Mapa del Tesoro
+                    </span>
+
+
+                    <span id="flechaCategorias">
+
+                        ▼
+
+                    </span>
+
+
+                </button>
+
+
+
+
+                <div
+
+                    id="menuCategorias"
+
+                    class="menuCategorias"
+
+                >
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <section class="contenedorTesoro">
+
+
+            <section class="cards" id="lista"></section>
+
+
+        </section>
+
+
+
 
     `;
 
 
-    mostrar(listaFavoritos, favoritosUsuario);
+
+
+
+    mostrar(datos, favoritosUsuario, tarjetas);
+
+
+
+    cargarFiltroTarjetas();
+
+
+
+    mostrarMensaje("⬇️ Los tesoros te esperan más abajo ^^.");
+
+}
+
+/* =========================
+   GET TARJETAS
+========================= */
+
+async function getTarjetas(){
+
+    const snap = await db
+        .collection("tarjetas")
+        .orderBy("orden")
+        .get();
+
+
+    return snap.docs.map(doc => ({
+
+        id: doc.id,
+        ...doc.data()
+
+    }));
 
 }
 
@@ -995,45 +1245,107 @@ function copiarUID(){
    MOSTRAR
 ========================= */
 
-function mostrar(listaRecursos, favoritosUsuario = []) {
+function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
 
-    document.getElementById("lista").innerHTML = listaRecursos.map(r => `
-        <div class="card">
 
-            <h2>${r.nombre}</h2>
+    document.getElementById("lista").innerHTML = listaRecursos.map(r => {
+
+
+        const tarjetaRecurso = tarjetas.find(t =>
+
+            r.tarjetas &&
+            r.tarjetas.includes(t.nombre)
+
+        );
+
+
+        const colorTarjeta = tarjetaRecurso
+        ? tarjetaRecurso.color
+        : "";
+
+
+
+        return `
+
+        <div class="card ${colorTarjeta}">
+
+
+            <h2>
+                ${r.nombre}
+            </h2>
+
 
             <p>
                 <strong>Categoría:</strong>
-                <a href="#" onclick="abrirCategoria('${r.seccion}'); return false;">
+
+                <a 
+                href="#"
+                onclick="abrirCategoria('${r.seccion}'); return false;"
+                >
                     ${r.categoria}
                 </a>
+
             </p>
 
-            <p>${r.descripcion}</p>
-            <p>${r.origen}</p>
-            <p>${r.tipo}</p>
+
+            <p>
+                ${r.descripcion}
+            </p>
+
+
+            <p>
+                ${r.origen}
+            </p>
+
+
+            <p>
+                ${r.tipo}
+            </p>
+
+
 
             <div class="botonesCard">
 
+
                 <button
+
                 class="btnFavorito ${favoritosUsuario.includes(r.id) ? "favoritoActivo" : ""}"
+
                 id="fav-${r.id}"
+
                 onclick="toggleFavorito('${r.id}')"
+
                 >
+
                 ${favoritosUsuario.includes(r.id) ? "🌟" : "⭐"}
+
                 </button>
-    
+
+
+
                 <button
+
                     class="btnDescargar"
+
                     onclick="window.open('${r.enlace}', '_blank')"
+
                 >
+
                     📥 Descargar
+
                 </button>
+
 
             </div>
 
+
         </div>
-    `).join("");
+
+        `;
+
+
+    }).join("");
+
 
 }
 
@@ -1153,32 +1465,23 @@ async function toggleFavorito(idRecurso){
 
     }
 
-
     const uid = auth.currentUser.uid;
 
-
     const idFavorito = uid + "_" + idRecurso;
-
 
     const favorito = await db
         .collection("favoritos")
         .doc(idFavorito)
         .get();
 
-
     const boton = document.getElementById("fav-" + idRecurso);
 
-
-
     if(favorito.exists){
-
 
         await db
             .collection("favoritos")
             .doc(idFavorito)
             .delete();
-
-        alert("⭐ Expulsado de Favoritos");
 
         if(boton){
 
@@ -1187,9 +1490,7 @@ async function toggleFavorito(idRecurso){
 
         }
 
-
     } else {
-
 
         await db
             .collection("favoritos")
@@ -1202,8 +1503,6 @@ async function toggleFavorito(idRecurso){
 
             });
 
-            alert("🌟 Guardado en Favoritos");
-
         if(boton){
 
             boton.innerHTML = "🌟";
@@ -1212,97 +1511,6 @@ async function toggleFavorito(idRecurso){
         }
 
     }
-
-}
-
-/* =========================
-   MENSAJES TEMPORALES
-========================= */
-
-function mostrarMensaje(texto){
-
-    const mensaje = document.createElement("div");
-
-    mensaje.className = "mensajeTemporal";
-
-    mensaje.innerHTML = texto;
-
-    document.body.appendChild(mensaje);
-
-
-    setTimeout(() => {
-
-        mensaje.classList.add("mostrar");
-
-    }, 50);
-
-
-    setTimeout(() => {
-
-        mensaje.classList.remove("mostrar");
-
-
-        setTimeout(() => {
-
-            mensaje.remove();
-
-        }, 300);
-
-
-    }, 3000);
-
-}
-
-/* =========================
-   COMUNIDAD
-========================= */
-
-function comunidad(){
-
-    document.getElementById("contenido").innerHTML = `
-
-        <section class="hero">
-
-            <h1>🌊 Comunidad Potuslandia</h1>
-
-            <p>
-                Explora y descubre todo lo que ofrece la comunidad.
-            </p>
-
-
-            <div class="comunidadMenu">
-
-
-                <button onclick="inicio()">
-                    ⬅ Volver
-                </button>
-
-
-                <button onclick="normas()">
-                    📜 Normas
-                </button>
-
-
-                <button onclick="guia()">
-                    🧭 Guía
-                </button>
-
-
-                <button onclick="noticias()">
-                    📢 Noticias
-                </button>
-
-
-                <button onclick="discord()">
-                    💬 Discord
-                </button>
-
-
-            </div>
-
-        </section>
-
-    `;
 
 }
 
@@ -1821,6 +2029,115 @@ function cerrarSecreto(){
 
 }
 
+
+getTarjetas().then(tarjetas => {
+
+    console.log("TARJETAS:", tarjetas);
+
+});
+
 /* =========================
-   START
+   CARGAR CATEGORIAS TESORO
 ========================= */
+
+async function cargarFiltroTarjetas() {
+
+
+    const recursos = await getRecursos();
+
+
+    const menu = document.getElementById("menuCategorias");
+
+
+    if(!menu){
+        return;
+    }
+
+
+
+    const categorias = [];
+
+
+
+    recursos.forEach(r => {
+
+
+        if(!r.categoria){
+            return;
+        }
+
+
+
+        const categoria = r.categoria
+            .trim()
+            .replace(/\s+/g, " ");
+
+
+
+        if(!categorias.includes(categoria)){
+
+            categorias.push(categoria);
+
+        }
+
+
+    });
+
+
+
+    console.log("CATEGORIAS LIMPIAS:", categorias);
+
+
+
+    menu.innerHTML = `
+
+        <div
+            class="opcionCategoria"
+            onclick="filtrarTarjeta('todas')"
+        >
+            🗺️ Todos los tesoros
+        </div>
+
+    `;
+
+
+
+    categorias.forEach(categoria => {
+
+
+        menu.innerHTML += `
+
+            <div
+                class="opcionCategoria"
+                onclick="filtrarTarjeta('${categoria}')"
+            >
+
+                ${categoria}
+
+            </div>
+
+        `;
+
+
+    });
+
+
+}
+
+/* =========================
+   ABRIR CATEGORIAS
+========================= */
+
+function abrirCategorias(){
+
+    const menu = document.getElementById("menuCategorias");
+
+    const flecha = document.getElementById("flechaCategorias");
+
+
+    menu.classList.toggle("abierto");
+
+
+    flecha.classList.toggle("girada");
+
+}
