@@ -127,8 +127,201 @@ window.addEventListener("load", () => {
 const ADMIN_EMAILS = [
     "xing75949@gmail.com",
     "mikylove943@gmail.com",
-    "xing75494@gmail.com"
+    "xing75494@gmail.com",
+    "tvftere92@gmail.com"
 ];
+
+let recursoEditando = null;
+
+/* =========================
+   GUARDAR RECURSO
+========================= */
+
+async function guardarRecurso() {
+
+
+    const nombre = document.getElementById("nombre").value.trim();
+
+    const descripcion = document.getElementById("descripcion").value.trim();
+
+    const categoria = document.getElementById("categoria").value.trim();
+
+    const seccion = document.getElementById("seccion").value.trim();
+
+    const enlace = document.getElementById("enlace").value.trim();
+
+
+
+    const nuevo = {
+
+
+        nombre,
+
+        descripcion,
+
+        categoria,
+
+        seccion,
+
+        enlace,
+
+
+
+        // 🎨 COLOR
+
+        colorTarjeta: document.getElementById("colorTarjeta").value,
+
+
+        significadoColor: document.getElementById("significadoColor").value,
+
+
+
+        duracionColor: Number(
+            document.getElementById("duracionColor").value
+        ) || 0,
+
+
+        unidadColor: document.getElementById("unidadColor").value,
+
+
+
+        fechaColor: new Date(),
+
+
+
+
+        // ⭐ PRIORIDAD
+
+        prioridad: document.getElementById("prioridad").checked,
+
+
+        prioridadInfinita: document.getElementById("prioridadInfinita").checked,
+
+
+
+        duracionPrioridad: Number(
+            document.getElementById("duracionPrioridad").value
+        ) || 0,
+
+
+        unidadPrioridad: document.getElementById("unidadPrioridad").value,
+
+
+
+        fechaPrioridad: new Date(),
+
+
+
+
+        origen: "Potuslandia",
+
+        tipo: "Web",
+
+
+        fecha: new Date()
+
+    };
+
+
+
+    try {
+
+
+        if(recursoEditando){
+
+
+            await db
+                .collection("recursos")
+                .doc(recursoEditando)
+                .update(nuevo);
+
+
+
+            alert("✅ Recurso actualizado.");
+
+
+            recursoEditando = null;
+
+
+
+        } else {
+
+
+            await db
+                .collection("recursos")
+                .add(nuevo);
+
+
+
+            alert("✅ Tesoro añadido correctamente.");
+
+        }
+
+
+
+        panelAdmin();
+
+
+
+    } catch(error){
+
+
+        console.error(error);
+
+        alert("Error al guardar.");
+
+    }
+
+
+}
+
+/* =========================
+   BORRAR RECURSO
+========================= */
+
+async function borrarRecurso(id){
+
+
+    const confirmar = confirm(
+        "¿Seguro que quieres borrar este tesoro?"
+    );
+
+
+    if(!confirmar){
+        return;
+    }
+
+
+
+    try{
+
+
+        await db
+            .collection("recursos")
+            .doc(id)
+            .delete();
+
+
+
+        alert("🗑️ Recurso eliminado.");
+
+
+
+        cargarRecursosAdmin();
+
+
+
+    }catch(error){
+
+
+        console.error(error);
+
+        alert("Error al borrar el recurso.");
+
+    }
+
+
+}
 
 /* =========================
    LOGIN
@@ -587,6 +780,67 @@ function inicio() {
 }
 
 /* =========================
+   MIS FAVORITOS
+========================= */
+
+async function misFavoritos(){
+
+
+    const favoritos = await getFavoritosUsuario();
+
+
+    const recursos = await getRecursos();
+
+
+    const favoritosRecursos = recursos.filter(r =>
+        favoritos.includes(r.id)
+    );
+
+
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero heroTesoro">
+
+            <h1>
+                🌟 Mis Favoritos
+            </h1>
+
+
+            <p>
+                Tus tesoros guardados.
+            </p>
+
+
+            <button onclick="inicio()">
+                ⬅ Volver
+            </button>
+
+        </section>
+
+
+        <section class="contenedorTesoro">
+
+            <section class="cards" id="lista"></section>
+
+        </section>
+
+    `;
+
+
+
+    mostrar(
+        favoritosRecursos,
+        favoritos,
+        await getTarjetas()
+    );
+
+
+}
+
+
+
+/* =========================
    GET RECURSOS
 ========================= */
 
@@ -597,6 +851,138 @@ async function getRecursos() {
         id: doc.id,
         ...doc.data()
     }));
+}
+
+/* =========================
+   CARGAR RECURSOS ADMIN
+========================= */
+
+async function cargarRecursosAdmin(){
+
+
+    const recursos = await getRecursos();
+
+
+    const lista = document.getElementById("listaAdmin");
+
+
+    if(!lista){
+        return;
+    }
+
+
+
+    lista.innerHTML = recursos.map(r => `
+
+
+        <div class="adminRecurso">
+
+
+            <h3>
+                ${r.nombre}
+            </h3>
+
+
+
+            <p>
+                ${r.categoria}
+            </p>
+
+
+
+            <p>
+                ${r.descripcion}
+            </p>
+
+
+
+
+            <button onclick="editarRecurso('${r.id}')">
+
+                ✏️ Editar
+
+            </button>
+
+
+
+            <button onclick="borrarRecurso('${r.id}')">
+
+                🗑️ Borrar
+
+            </button>
+
+
+
+        </div>
+
+
+    `).join("");
+
+
+}
+
+/* =========================
+   EDITAR RECURSO
+========================= */
+
+async function editarRecurso(id){
+
+
+    const doc = await db
+        .collection("recursos")
+        .doc(id)
+        .get();
+
+
+
+    if(!doc.exists){
+
+        alert("No se encontró el recurso.");
+
+        return;
+
+    }
+
+
+
+    const r = doc.data();
+
+
+
+    // Guardamos el recurso que estamos modificando
+    recursoEditando = id;
+
+
+
+    document.getElementById("nombre").value = r.nombre || "";
+
+    document.getElementById("descripcion").value = r.descripcion || "";
+
+    document.getElementById("categoria").value = r.categoria || "";
+
+    document.getElementById("seccion").value = r.seccion || "";
+
+    document.getElementById("enlace").value = r.enlace || "";
+
+
+
+    document.getElementById("colorTarjeta").value = r.colorTarjeta || "#0b2d45";
+
+    document.getElementById("significadoColor").value = r.significadoColor || "";
+
+    document.getElementById("duracionColor").value = r.duracionColor || "";
+
+
+
+    document.getElementById("prioridad").checked = r.prioridad || false;
+
+    document.getElementById("duracionPrioridad").value = r.duracionPrioridad || "";
+
+
+
+    alert("✏️ Recurso cargado para editar.");
+
+
 }
 
 /* =========================
@@ -729,12 +1115,11 @@ async function getFavoritosUsuario(){
 }
 
 /* =========================
-   PANEL ADMIN (FIX DEFINITIVO)
+   PANEL ADMIN
 ========================= */
 
 async function panelAdmin() {
 
-    // 🔥 espera si Firebase aún no ha cargado usuario
     if (!auth.currentUser) {
         setTimeout(panelAdmin, 300);
         return;
@@ -750,7 +1135,7 @@ async function panelAdmin() {
 
             <section class="hero">
 
-                <h1>⛔ Nakama no identificado </h1>
+                <h1>⛔ Nakama no identificado</h1>
 
                 <button onclick="inicio()">
                     Volver
@@ -770,18 +1155,225 @@ async function panelAdmin() {
 
         <section class="hero">
 
-            <h1>⚙ Panel de Admin</h1>
+
+            <h1>
+                ⚙ Panel de Admin
+            </h1>
+
 
 
             <input id="nombre" placeholder="Nombre"><br><br>
 
+
             <input id="descripcion" placeholder="Descripción"><br><br>
+
 
             <input id="categoria" placeholder="Categoría"><br><br>
 
+
             <input id="seccion" placeholder="Sección"><br><br>
 
+
             <input id="enlace" placeholder="Enlace de descarga"><br><br>
+
+
+
+
+            <h2>
+                🎨 Apariencia
+            </h2>
+
+
+
+            <label>
+                🎨 Color de tarjeta
+            </label>
+
+
+            <br>
+
+
+            <input
+
+                type="color"
+
+                id="colorTarjeta"
+
+                value="#0b2d45"
+
+            >
+
+
+            <br><br>
+
+
+
+
+            <div id="vistaPreviaColor">
+
+
+                <h3>
+                    Vista previa
+                </h3>
+
+
+
+                <div 
+                    class="cardPreview"
+                    style="background:#0b2d45;"
+                >
+
+                    <h2>
+                        Ejemplo de tesoro
+                    </h2>
+
+
+                    <p>
+                        Así se verá la tarjeta.
+                    </p>
+
+
+                    <button>
+                        📥 Descargar
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <input
+                id="significadoColor"
+                placeholder="Significado del color"
+            ><br><br>
+
+
+
+
+            <input
+                id="duracionColor"
+                type="number"
+                placeholder="Duración"
+            >
+
+
+
+            <select id="unidadColor">
+
+                <option value="minutos">
+                    Minutos
+                </option>
+
+
+                <option value="horas">
+                    Horas
+                </option>
+
+
+                <option value="dias">
+                    Días
+                </option>
+
+
+                <option value="infinito">
+                    ∞ Permanente
+                </option>
+
+
+            </select>
+
+
+            <br><br>
+
+
+
+
+
+            <h2>
+                🔝 Prioridad
+            </h2>
+
+
+
+            <label>
+
+                <input
+                    id="prioridad"
+                    type="checkbox"
+                >
+
+                🔝 Mostrar primero
+
+            </label>
+
+
+
+            <br><br>
+
+
+
+            <label>
+
+                <input
+                    id="prioridadInfinita"
+                    type="checkbox"
+                >
+
+                ⭐ Prioridad permanente
+
+            </label>
+
+
+
+            <br><br>
+
+
+
+            <input
+                id="duracionPrioridad"
+                type="number"
+                placeholder="Duración"
+            >
+
+
+
+            <select id="unidadPrioridad">
+
+
+                <option value="minutos">
+                    Minutos
+                </option>
+
+
+                <option value="horas">
+                    Horas
+                </option>
+
+
+                <option value="dias">
+                    Días
+                </option>
+
+
+                <option value="infinito">
+                    ∞ Siempre
+                </option>
+
+
+            </select>
+
+
+
+            <br><br>
+
+
 
 
 
@@ -790,6 +1382,25 @@ async function panelAdmin() {
                 ➕ Guardar
 
             </button>
+
+
+
+            <br><br>
+
+
+
+            <h2>
+                📚 Recursos existentes
+            </h2>
+
+
+
+            <div id="listaAdmin"></div>
+
+
+
+            <br>
+
 
 
             <button onclick="inicio()">
@@ -802,6 +1413,25 @@ async function panelAdmin() {
         </section>
 
     `;
+
+
+
+    const selectorColor = document.getElementById("colorTarjeta");
+
+    const preview = document.querySelector(".cardPreview");
+
+
+
+    selectorColor.addEventListener("input", () => {
+
+        preview.style.background = selectorColor.value;
+
+    });
+
+
+
+    cargarRecursosAdmin();
+
 
 }
 
@@ -1248,26 +1878,250 @@ function copiarUID(){
 function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
 
 
+    // ⭐ Ordenar tarjetas con prioridad activa arriba
+
+    listaRecursos.sort((a, b) => {
+
+
+        function prioridadActiva(r) {
+
+
+            if(!r.prioridad){
+
+                return false;
+
+            }
+
+
+
+            if(r.prioridadInfinita){
+
+                return true;
+
+            }
+
+
+
+            if(!r.fechaPrioridad){
+
+                return false;
+
+            }
+
+
+
+            const fecha = r.fechaPrioridad.toDate
+
+                ? r.fechaPrioridad.toDate()
+
+                : new Date(r.fechaPrioridad);
+
+
+
+            const ahora = new Date();
+
+
+
+            let tiempo = r.duracionPrioridad || 0;
+
+
+
+            if(r.unidadPrioridad === "minutos"){
+
+                tiempo *= 60 * 1000;
+
+            }
+
+
+
+            if(r.unidadPrioridad === "horas"){
+
+                tiempo *= 60 * 60 * 1000;
+
+            }
+
+
+
+            if(r.unidadPrioridad === "dias"){
+
+                tiempo *= 24 * 60 * 60 * 1000;
+
+            }
+
+
+
+            if(r.unidadPrioridad === "infinito"){
+
+                return true;
+
+            }
+
+
+
+            return (ahora - fecha) < tiempo;
+
+
+        }
+
+
+
+
+        const prioridadA = prioridadActiva(a);
+
+        const prioridadB = prioridadActiva(b);
+
+
+
+        if(prioridadA && !prioridadB){
+
+            return -1;
+
+        }
+
+
+
+        if(!prioridadA && prioridadB){
+
+            return 1;
+
+        }
+
+
+
+        return 0;
+
+
+    });
+
+
+
+
+
     document.getElementById("lista").innerHTML = listaRecursos.map(r => {
 
 
-        const tarjetaRecurso = tarjetas.find(t =>
 
-            r.tarjetas &&
-            r.tarjetas.includes(t.nombre)
+        // 🎨 Comprobar si el color sigue activo
 
-        );
+        function colorActivo(){
 
 
-        const colorTarjeta = tarjetaRecurso
-        ? tarjetaRecurso.color
-        : "";
+            if(!r.colorTarjeta){
+
+                return false;
+
+            }
+
+
+
+            if(r.unidadColor === "infinito"){
+
+                return true;
+
+            }
+
+
+
+            if(!r.fechaColor){
+
+                return true;
+
+            }
+
+
+
+            const fecha = r.fechaColor.toDate
+
+                ? r.fechaColor.toDate()
+
+                : new Date(r.fechaColor);
+
+
+
+            const ahora = new Date();
+
+
+
+            let tiempo = r.duracionColor || 0;
+
+
+
+            if(r.unidadColor === "minutos"){
+
+                tiempo *= 60 * 1000;
+
+            }
+
+
+
+            if(r.unidadColor === "horas"){
+
+                tiempo *= 60 * 60 * 1000;
+
+            }
+
+
+
+            if(r.unidadColor === "dias"){
+
+                tiempo *= 24 * 60 * 60 * 1000;
+
+            }
+
+
+
+            return (ahora - fecha) < tiempo;
+
+
+        }
+
+
+
+
+        const tieneColor = colorActivo();
+
+
+
+        const colorTarjeta = tieneColor
+
+            ? r.colorTarjeta
+
+            : "";
+
+
 
 
 
         return `
 
-        <div class="card ${colorTarjeta}">
+
+        <div 
+            class="card"
+            style="background:${colorTarjeta};"
+        >
+
+
+
+            ${
+                tieneColor && r.significadoColor
+
+                ?
+
+                `
+                <div class="etiquetaColor">
+
+                    ${r.significadoColor}
+
+                </div>
+                `
+
+                :
+
+                ""
+
+            }
+
+
 
 
             <h2>
@@ -1275,17 +2129,27 @@ function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
             </h2>
 
 
+
+
+
             <p>
+
                 <strong>Categoría:</strong>
 
+
                 <a 
-                href="#"
-                onclick="abrirCategoria('${r.seccion}'); return false;"
+                    href="#"
+                    onclick="abrirCategoria('${r.seccion}'); return false;"
                 >
+
                     ${r.categoria}
+
                 </a>
 
             </p>
+
+
+
 
 
             <p>
@@ -1293,9 +2157,15 @@ function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
             </p>
 
 
+
+
+
             <p>
                 ${r.origen}
             </p>
+
+
+
 
 
             <p>
@@ -1304,22 +2174,31 @@ function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
 
 
 
+
+
+
             <div class="botonesCard">
+
+
+
 
 
                 <button
 
-                class="btnFavorito ${favoritosUsuario.includes(r.id) ? "favoritoActivo" : ""}"
+                    class="btnFavorito ${favoritosUsuario.includes(r.id) ? "favoritoActivo" : ""}"
 
-                id="fav-${r.id}"
+                    id="fav-${r.id}"
 
-                onclick="toggleFavorito('${r.id}')"
+                    onclick="toggleFavorito('${r.id}')"
 
                 >
 
-                ${favoritosUsuario.includes(r.id) ? "🌟" : "⭐"}
+                    ${favoritosUsuario.includes(r.id) ? "🌟" : "⭐"}
 
                 </button>
+
+
+
 
 
 
@@ -1336,10 +2215,17 @@ function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
                 </button>
 
 
+
+
+
             </div>
 
 
+
+
+
         </div>
+
 
         `;
 
@@ -1369,56 +2255,6 @@ async function buscar() {
     mostrar(filtrados);
 }
 
-/* =========================
-   GUARDAR RECURSO
-========================= */
-
-async function guardarRecurso() {
-
-    const nombre = document.getElementById("nombre").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
-    const categoria = document.getElementById("categoria").value.trim();
-    const seccion = document.getElementById("seccion").value.trim();
-    const enlace = document.getElementById("enlace").value.trim();
-
-    if (
-        !nombre ||
-        !descripcion ||
-        !categoria ||
-        !seccion ||
-        !enlace
-    ){
-        alert("Debes rellenar todos los campos.");
-        return;
-    }
-
-    const nuevo = {
-        nombre,
-        descripcion,
-        categoria,
-        seccion,
-        origen: "Potuslandia",
-        tipo: "Web",
-        enlace,
-        fecha: new Date()
-    };
-
-    try{
-
-        await db.collection("recursos").add(nuevo);
-
-        alert("✅ Tesoro añadido correctamente.");
-
-        panelAdmin();
-
-    }catch(error){
-
-        console.error(error);
-        alert("Ha ocurrido un error al guardar.");
-
-    }
-
-}
 
 function toggleMenu() {
 
@@ -1567,6 +2403,68 @@ function normas(){
 
 
             </div>
+
+        </section>
+
+    `;
+
+}
+
+/* =========================
+   COMUNIDAD
+========================= */
+
+function comunidad(){
+
+    document.getElementById("contenido").innerHTML = `
+
+        <section class="hero">
+
+            <h1>
+                🌊 Comunidad Potuslandia
+            </h1>
+
+
+            <p>
+                Explora las zonas de la comunidad.
+            </p>
+
+
+
+            <div class="comunidadMenu">
+
+
+                <button onclick="normas()">
+                    📜 Normas
+                </button>
+
+
+
+                <button onclick="guia()">
+                    🧭 Guía
+                </button>
+
+
+
+                <button onclick="noticias()">
+                    📢 Noticias
+                </button>
+
+
+
+                <button onclick="discord()">
+                    💬 Discord
+                </button>
+
+
+
+                <button onclick="inicio()">
+                    ⬅ Volver
+                </button>
+
+
+            </div>
+
 
         </section>
 
@@ -2139,5 +3037,41 @@ function abrirCategorias(){
 
 
     flecha.classList.toggle("girada");
+
+}
+
+/* =========================
+   MOSTRAR MENSAJE TEMPORAL
+========================= */
+
+function mostrarMensaje(texto) {
+
+    const mensaje = document.createElement("div");
+
+    mensaje.className = "mensajeTemporal";
+
+    mensaje.textContent = texto;
+
+    document.body.appendChild(mensaje);
+
+
+    setTimeout(() => {
+
+        mensaje.classList.add("mostrar");
+
+    }, 50);
+
+
+    setTimeout(() => {
+
+        mensaje.classList.remove("mostrar");
+
+        setTimeout(() => {
+
+            mensaje.remove();
+
+        }, 400);
+
+    }, 3500);
 
 }

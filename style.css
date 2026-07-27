@@ -1207,3 +1207,83 @@ a{
     background: rgba(255,255,255,0.15);
 
 }
+
+/* =========================
+   PREVISUALIZACIÓN ADMIN
+========================= */
+
+.cardPreview {
+
+    width: 280px;
+
+    min-height: 150px;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    margin: 20px auto;
+
+    color: white;
+
+    overflow: hidden;
+
+}
+
+/* =========================
+   TARJETAS ADMIN
+========================= */
+
+#listaAdmin {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    justify-content: center;
+
+}
+
+
+
+.adminRecurso {
+
+    width: 280px;
+
+    min-height: 180px;
+
+    background: rgba(11,45,69,0.75);
+
+    backdrop-filter: blur(8px);
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    color: white;
+
+    text-align: center;
+
+}
+
+/* =========================
+   SIGNIFICADO COLOR TARJETA
+========================= */
+
+.etiquetaColor{
+
+    text-align:center;
+
+    font-weight:900;
+
+    font-size:32px;
+
+    text-transform:uppercase;
+
+    padding:10px;
+
+    margin-bottom:15px;
+
+}
