@@ -1295,3 +1295,52 @@ a{
     margin-bottom:15px;
 
 }
+
+/* ===========================
+   PÁGINAS LEGALES
+=========================== */
+
+.paginaLegal{
+
+    max-width:900px;
+
+    margin:50px auto;
+
+    padding:30px;
+
+    background:rgba(0,0,0,.65);
+
+    border-radius:18px;
+
+    color:white;
+
+    backdrop-filter:blur(8px);
+
+}
+
+.paginaLegal h1{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.paginaLegal h2{
+
+    margin-top:35px;
+
+}
+
+.paginaLegal p,
+.paginaLegal li{
+
+    line-height:1.7;
+
+}
+
+.paginaLegal a{
+
+    color:#8fd3ff;
+
+}
