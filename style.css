@@ -1386,3 +1386,307 @@ a{
     transform: scale(1.05);
 
 }
+
+/* ==========================
+   NOTICIAS POTUSLANDIA
+   CRISTAL + DISCORD
+========================== */
+
+
+.noticiaCard {
+
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(12px);
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    margin: 25px auto;
+
+    max-width: 750px;
+
+    color:white;
+
+    box-shadow: 
+    0 10px 30px rgba(0,0,0,0.25);
+
+    animation: aparecerNoticia 0.5s ease;
+
+}
+
+
+
+
+
+/* CABECERA USUARIO */
+
+.noticiaCabecera {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.avatarNoticia {
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid rgba(255,255,255,0.5);
+
+}
+
+
+
+.noticiaCabecera h3 {
+
+    margin:0;
+
+    font-size:18px;
+
+}
+
+
+
+.noticiaCabecera span {
+
+    color:rgba(255,255,255,0.75);
+
+    font-size:14px;
+
+}
+
+
+
+
+
+/* CONTENIDO DEL MENSAJE */
+
+.noticiaContenido {
+
+    background:
+
+    rgba(255,255,255,0.08);
+
+    border-radius:15px;
+
+    padding:15px;
+
+    line-height:1.6;
+
+    margin-top:15px;
+
+}
+
+
+
+
+
+/* IMÁGENES DE DISCORD */
+
+.noticiaImagen {
+
+    margin-top:15px;
+
+}
+
+
+
+.noticiaImagen img {
+
+    width:100%;
+
+    max-height:500px;
+
+    object-fit:contain;
+
+    border-radius:15px;
+
+    box-shadow:
+
+    0 5px 20px rgba(0,0,0,0.25);
+
+}
+
+
+
+
+
+/* PIE DE NOTICIA */
+
+.noticiaPie {
+
+    margin-top:18px;
+
+    padding-top:12px;
+
+    border-top:
+
+    1px solid rgba(255,255,255,0.2);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+
+
+
+/* BOTÓN DISCORD */
+
+.discordLink {
+
+    background:
+
+    rgba(88,101,242,0.9);
+
+    color:white;
+
+    padding:8px 15px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    transition:0.3s;
+
+}
+
+
+
+.discordLink:hover {
+
+    transform:scale(1.05);
+
+}
+
+
+
+
+
+/* CUANDO NO HAY NOTICIAS */
+
+.sinNoticias {
+
+    background:
+
+    rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(10px);
+
+    padding:20px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+}
+
+
+
+.noticiaCabecera {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.noticiaIcono {
+
+    font-size:40px;
+
+}
+
+
+
+.noticiaCabecera h2 {
+
+    margin:0;
+
+}
+
+
+
+.noticiaTexto {
+
+    font-size:18px;
+
+    line-height:1.5;
+
+    margin-top:20px;
+
+}
+
+
+
+.noticiaInfo {
+
+    margin-top:20px;
+
+    opacity:0.8;
+
+    font-size:14px;
+
+}
+
+
+
+.sinNoticias {
+
+    padding:30px;
+
+    background:rgba(0,0,0,0.3);
+
+    border-radius:20px;
+
+    color:white;
+
+}
+
+
+
+@keyframes aparecerNoticia {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

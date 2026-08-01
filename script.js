@@ -741,35 +741,47 @@ function cargarTripulacion(){
 
 }
 
-/* =========================
-   INICIO
-========================= */
+ /* =========================
+    INICIO
+ ========================= */
 
 function inicio() {
    
     document.getElementById("contenido").innerHTML = `
         <section class="hero">
 
-            <h1>¡Bienvenidx a bordo!</h1>
+            <h1>
+                ¡Bienvenidx a bordo!
+            </h1>
+
 
             <p>
                 Una comunidad de nakamas y buen rollo.
             </p>
 
+
             <button onclick="archivos()">
                 Investigar el botín
             </button>
 
+
             <br><br><br>
 
+
             <div id="tripulacion"></div>
+
+
+            <br><br>
+
 
             <button class="btnFondo" onclick="cambiarFondoAleatorio()">
                 🌌
             </button>
 
+
         </section>
     `;
+
 
 
     console.log("INICIO LLAMANDO A TRIPULACION");
@@ -2541,42 +2553,37 @@ function noticias(){
 
         <section class="hero">
 
-            <h1>📢 Noticias Potuslandia</h1>
+            <h1>
+                📢 Noticias Potuslandia
+            </h1>
 
 
-            <p>
-                Este espacio del barco todavía está en construcción.
-            </p>
-
-
-            <div class="comunidadTexto">
-
+            <div id="noticias">
 
                 <p>
-                    ⚓ El Soporte está construyendo este rincón para futuros avisos.
+                    📰 Cargando noticias...
                 </p>
-
-
-                <p>
-                    🌱 Próximamente encontrarás aquí las novedades de Potuslandia.
-                </p>
-
-
-                <p>
-                    🗺️ Sigue explorando mientras terminamos esta zona.
-                </p>
-
-
-                <button onclick="comunidad()">
-                    ⬅ Volver a Comunidad
-                </button>
-
 
             </div>
+
+
+            <br>
+
+
+            <button onclick="comunidad()">
+                ⬅ Volver a Comunidad
+            </button>
+
 
         </section>
 
     `;
+
+
+    console.log("NOTICIAS LLAMANDO A FIREBASE");
+
+
+    cargarNoticias();
 
 }
 
