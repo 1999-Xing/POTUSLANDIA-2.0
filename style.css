@@ -1104,9 +1104,13 @@ a{
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content: center;
 
     align-items: center;
+
+    gap: 10px;
+
+    text-align: center;
 
 }
 
@@ -1137,7 +1141,7 @@ a{
 
     position: absolute;
 
-    top: calc(100% + 25px);
+    top: calc(100% + 100px);
 
     left: 50%;
 
@@ -1178,6 +1182,8 @@ a{
     border-radius: 10px;
 
     cursor: pointer;
+
+    text-align: center;
 
 }
 
