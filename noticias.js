@@ -1,6 +1,4 @@
-/* =========================
-   CARGAR NOTICIAS
-========================= */
+/*CARGAR NOTICIAS*/
 
 
 async function cargarNoticias() {
@@ -271,9 +269,7 @@ async function cargarNoticias() {
 
 }
 
-/* =========================
-   FORMATEAR DISCORD
-========================= */
+/*FORMATEAR DISCORD*/
 
 
 function formatearDiscord(texto) {

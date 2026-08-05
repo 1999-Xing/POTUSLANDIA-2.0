@@ -20,9 +20,7 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 console.log("Realtime Database:", rtdb);
 
-/* =========================
-   PISTAS SECRETAS
-========================= */
+/*PISTAS SECRETAS*/
 
 const pistasSecretas = [
 
@@ -44,9 +42,7 @@ const pistasSecretas = [
 
 ];
 
-/* =========================
-   FONDOS ALEATORIOS
-========================= */
+/*FONDOS ALEATORIOS*/
 
 const fondos = [
 
@@ -94,9 +90,7 @@ function cambiarFondoAleatorio(){
 }
 
 
-/* =========================
-   PISTAS SECRETAS
-========================= */
+/*PISTAS SECRETAS*/
 
 function mostrarPistaSecreta(){
 
@@ -110,9 +104,7 @@ function mostrarPistaSecreta(){
 }
 
 
-/* =========================
-   FONDO INICIAL AL CARGAR
-========================= */
+/*FONDO INICIAL AL CARGAR*/
 
 window.addEventListener("load", () => {
 
@@ -120,9 +112,7 @@ window.addEventListener("load", () => {
 
 });
 
-/* =========================
-   ADMIN EMAILS
-========================= */
+/*ADMIN EMAILS*/
 
 const ADMIN_EMAILS = [
     "xing75949@gmail.com",
@@ -133,9 +123,7 @@ const ADMIN_EMAILS = [
 
 let recursoEditando = null;
 
-/* =========================
-   GUARDAR RECURSO
-========================= */
+/*GUARDAR RECURSO*/
 
 async function guardarRecurso() {
 
@@ -275,9 +263,7 @@ async function guardarRecurso() {
 
 }
 
-/* =========================
-   BORRAR RECURSO
-========================= */
+/*BORRAR RECURSO*/
 
 async function borrarRecurso(id){
 
@@ -323,9 +309,7 @@ async function borrarRecurso(id){
 
 }
 
-/* =========================
-   LOGIN
-========================= */
+/*LOGIN*/
 
 function login(email, password) {
 
@@ -343,9 +327,7 @@ function login(email, password) {
         .catch(err => alert(err.message));
 }
 
-/* =========================
-   LOGIN GOOGLE
-========================= */
+/*LOGIN GOOGLE*/
 
 function loginGoogle() {
 
@@ -425,9 +407,7 @@ function mostrarAcceso() {
 
 }
 
-/* =========================
-   LOGIN UI
-========================= */
+/*LOGIN UI*/
 
 function mostrarLogin() {
 
@@ -450,9 +430,7 @@ function mostrarLogin() {
     `;
 }
 
-/* =========================
-   ESTADO GLOBAL USUARIO
-========================= */
+/*ESTADO GLOBAL USUARIO*/
 
 let usuarioActual = null;
 
@@ -468,9 +446,7 @@ auth.onAuthStateChanged(user => {
 
     if (user) {
 
-    /* =========================
-   PRESENCIA EN TIEMPO REAL
-========================= */
+    /*PRESENCIA EN TIEMPO REAL*/
 
 const presenciaRef = rtdb.ref("presencia/" + user.uid);
 
@@ -689,9 +665,7 @@ function obtenerFraseTripulacion(activos){
 
 }
 
-/* =========================
-   ESTADO DE LA TRIPULACIÓN
-========================= */
+/*ESTADO DE LA TRIPULACIÓN*/
 
 function cargarTripulacion(){
 
@@ -741,9 +715,7 @@ function cargarTripulacion(){
 
 }
 
- /* =========================
-    INICIO
- ========================= */
+ /*INICIO*/
 
 function inicio() {
    
@@ -791,9 +763,7 @@ function inicio() {
 
 }
 
-/* =========================
-   MIS FAVORITOS
-========================= */
+/*MIS FAVORITOS*/
 
 async function misFavoritos(){
 
@@ -852,9 +822,7 @@ async function misFavoritos(){
 
 
 
-/* =========================
-   GET RECURSOS
-========================= */
+/*GET RECURSOS*/
 
 async function getRecursos() {
     const snap = await db.collection("recursos").get();
@@ -865,9 +833,7 @@ async function getRecursos() {
     }));
 }
 
-/* =========================
-   CARGAR RECURSOS ADMIN
-========================= */
+/*CARGAR RECURSOS ADMIN*/
 
 async function cargarRecursosAdmin(){
 
@@ -933,9 +899,7 @@ async function cargarRecursosAdmin(){
 
 }
 
-/* =========================
-   EDITAR RECURSO
-========================= */
+/*EDITAR RECURSO*/
 
 async function editarRecurso(id){
 
@@ -997,9 +961,7 @@ async function editarRecurso(id){
 
 }
 
-/* =========================
-   FILTRAR TESORO POR CATEGORIA
-========================= */
+/*FILTRAR TESORO POR CATEGORIA*/
 
 async function filtrarTarjeta(categoria) {
 
@@ -1100,9 +1062,7 @@ async function filtrarTarjeta(categoria) {
 
 }
 
-/* =========================
-   GET FAVORITOS USUARIO
-========================= */
+/*GET FAVORITOS USUARIO*/
 
 async function getFavoritosUsuario(){
 
@@ -1126,9 +1086,7 @@ async function getFavoritosUsuario(){
 
 }
 
-/* =========================
-   PANEL ADMIN
-========================= */
+/*PANEL ADMIN*/
 
 async function panelAdmin() {
 
@@ -1447,9 +1405,7 @@ async function panelAdmin() {
 
 }
 
-/* =========================
-   ARCHIVOS
-========================= */
+/*ARCHIVOS*/
 
 async function archivos() {
 
@@ -1628,9 +1584,7 @@ async function archivos() {
 
 }
 
-/* =========================
-   GET TARJETAS
-========================= */
+/*GET TARJETAS*/
 
 async function getTarjetas(){
 
@@ -1649,9 +1603,7 @@ async function getTarjetas(){
 
 }
 
-/* =========================
-   MI PERFIL
-========================= */
+/*MI PERFIL*/
 
 function miPerfil() {
 
@@ -1758,9 +1710,7 @@ function miPerfil() {
 
 }
 
-/* =========================
-   TIEMPO NAVEGANDO
-========================= */
+/*TIEMPO NAVEGANDO*/
 
 function actualizarTiempoNavegando(fechaRegistro){
 
@@ -1827,9 +1777,7 @@ function actualizarTiempoNavegando(fechaRegistro){
 
 }
 
-/* =========================
-   ESTADO DEL TRIPULANTE
-========================= */
+/*ESTADO DEL TRIPULANTE*/
 
 function comprobarEstadoPerfil(){
 
@@ -1859,9 +1807,7 @@ function comprobarEstadoPerfil(){
 
 }
 
-/* =========================
-   COPIAR UID
-========================= */
+/*COPIAR UID*/
 
 function copiarUID(){
 
@@ -1883,9 +1829,7 @@ function copiarUID(){
 
 }
 
-/* =========================
-   MOSTRAR
-========================= */
+/*MOSTRAR*/
 
 function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
 
@@ -2247,9 +2191,7 @@ function mostrar(listaRecursos, favoritosUsuario = [], tarjetas = []) {
 
 }
 
-/* =========================
-   BUSCADOR
-========================= */
+/*BUSCADOR*/
 
 async function buscar() {
 
@@ -2299,9 +2241,7 @@ function toggleMenu() {
 
 console.log("TOGGLE MENU CARGADO");
 
-/* =========================
-   FAVORITOS
-========================= */
+/*FAVORITOS*/
 
 async function toggleFavorito(idRecurso){
 
@@ -2362,9 +2302,7 @@ async function toggleFavorito(idRecurso){
 
 }
 
-/* =========================
-   NORMAS COMUNIDAD
-========================= */
+/*NORMAS COMUNIDAD*/
 
 function normas(){
 
@@ -2422,9 +2360,7 @@ function normas(){
 
 }
 
-/* =========================
-   COMUNIDAD
-========================= */
+/*COMUNIDAD*/
 
 function comunidad(){
 
@@ -2484,9 +2420,7 @@ function comunidad(){
 
 }
 
-/* =========================
-   GUIA COMUNIDAD
-========================= */
+/*GUIA COMUNIDAD*/
 
 function guia(){
 
@@ -2543,9 +2477,7 @@ function guia(){
 
 }
 
-/* =========================
-   NOTICIAS COMUNIDAD
-========================= */
+/*NOTICIAS COMUNIDAD*/
 
 function noticias(){
 
@@ -2587,9 +2519,7 @@ function noticias(){
 
 }
 
-/* =========================
-   DISCORD COMUNIDAD
-========================= */
+/*DISCORD COMUNIDAD*/
 
 function discord(){
 
@@ -2644,9 +2574,7 @@ function discord(){
 
 }
 
-/* =========================
-   ABRIR DISCORD
-========================= */
+/*ABRIR DISCORD*/
 
 function abrirDiscord(){
 
@@ -2657,9 +2585,7 @@ function abrirDiscord(){
 
 }
 
-/* =========================
-   MI PERFIL
-========================= */
+/*MI PERFIL*/
 
 function miPerfil() {
 
@@ -2784,9 +2710,7 @@ function miPerfil() {
 
 }
 
-/* =========================
-   FOTO SECRETA
-========================= */
+/*FOTO SECRETA*/
 
 let clicksFotoSecreta = 0;
 
@@ -2826,9 +2750,7 @@ function clicFotoSecreta(){
 }
 
 
-/* =========================
-   CARTEL SECRETO DESCUBIERTO
-========================= */
+/*CARTEL SECRETO DESCUBIERTO*/
 
 function mostrarSecretoDescubierto(){
 
@@ -2896,9 +2818,7 @@ function mostrarSecretoDescubierto(){
 
 
 
-/* =========================
-   ABRIR COFRE SECRETO
-========================= */
+/*ABRIR COFRE SECRETO*/
 
 function abrirCofre(){
 
@@ -2917,9 +2837,7 @@ function abrirCofre(){
 
 
 
-/* =========================
-   CERRAR CARTEL SECRETO
-========================= */
+/*CERRAR CARTEL SECRETO*/
 
 function cerrarSecreto(){
 
@@ -2941,9 +2859,7 @@ getTarjetas().then(tarjetas => {
 
 });
 
-/* =========================
-   CARGAR CATEGORIAS TESORO
-========================= */
+/*CARGAR CATEGORIAS TESORO*/
 
 async function cargarFiltroTarjetas() {
 
@@ -3029,9 +2945,7 @@ async function cargarFiltroTarjetas() {
 
 }
 
-/* =========================
-   ABRIR CATEGORIAS
-========================= */
+/*ABRIR CATEGORIAS*/
 
 function abrirCategorias(){
 
@@ -3047,9 +2961,7 @@ function abrirCategorias(){
 
 }
 
-/* =========================
-   MOSTRAR MENSAJE TEMPORAL
-========================= */
+/*MOSTRAR MENSAJE TEMPORAL*/
 
 function mostrarMensaje(texto) {
 

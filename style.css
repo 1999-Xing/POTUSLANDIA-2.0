@@ -20,9 +20,8 @@ body{
 
 }
 
-/* =========================
-   NAVBAR
-========================= */
+   /*NAVBAR*/
+
 
 nav{
 
@@ -51,7 +50,7 @@ nav{
 }
 
 
-/* MENÚ CENTRAL */
+/*MENÚ CENTRAL*/
 
 .menu{
 
@@ -84,9 +83,9 @@ nav{
 }
 
 
-/* =========================
-   USUARIO
-========================= */
+
+/*USUARIO*/
+
 
 
 #menuUsuario{
@@ -164,9 +163,8 @@ nav{
 
 
 
-/* =========================
-   MENÚ DESPLEGABLE
-========================= */
+   /*MENÚ DESPLEGABLE*/
+
 
 
 #menuDesplegable{
@@ -236,9 +234,8 @@ nav{
 }
 
 
-/* =========================
-   CONTENIDO
-========================= */
+   /*CONTENIDO*/
+
 
 
 #contenido{
@@ -248,9 +245,8 @@ nav{
 }
 
 
-/* =========================
-   HERO
-========================= */
+   /*HERO*/
+
 
 
 .hero{
@@ -285,9 +281,7 @@ nav{
 
 
 
-/* =========================
-   BOTONES
-========================= */
+/*BOTONES*/
 
 
 button{
@@ -326,9 +320,7 @@ button:hover{
 
 
 
-/* =========================
-   CARDS
-========================= */
+/*CARDS*/
 
 
 .cards{
@@ -404,9 +396,7 @@ a{
     display:none;
 }
 
-/* =========================
-   BOTONES DE LAS TARJETAS
-========================= */
+/*BOTONES DE LAS TARJETAS*/
 
 .botonesCard {
     display: flex;
@@ -475,9 +465,7 @@ a{
 
 }
 
-/* =========================
-   MENSAJES TEMPORALES
-========================= */
+/*MENSAJES TEMPORALES*/
 
 .mensajeTemporal{
 
@@ -520,9 +508,7 @@ a{
 
 }
 
-/* =========================
-   FONDO CON TRANSICIÓN
-========================= */
+/*FONDO CON TRANSICIÓN*/
 
 #fondo{
 
@@ -554,9 +540,7 @@ a{
 
 }
 
-/* =========================
-   BOTON CAMBIO DE FONDO
-========================= */
+/*BOTON CAMBIO DE FONDO*/
 
 .btnFondo{
 
@@ -603,9 +587,7 @@ a{
 
 }
 
-/* =========================
-   MENU COMUNIDAD
-========================= */
+/*MENU COMUNIDAD*/
 
 .comunidadMenu{
 
@@ -628,9 +610,7 @@ a{
 
 }
 
-/* =========================
-   NORMAS COMUNIDAD
-========================= */
+/*NORMAS COMUNIDAD*/
 
 .comunidadTexto{
 
@@ -653,9 +633,7 @@ a{
 
 }
 
-/* =========================
-   PANEL TRIPULACIÓN
-========================= */
+/*PANEL TRIPULACIÓN*/
 
 #tripulacion{
 
@@ -697,9 +675,7 @@ a{
 
 }
 
-/* =========================
-   MI PERFIL
-========================= */
+/*MI PERFIL*/
 
 .fotoPerfilGrande{
 
@@ -769,9 +745,7 @@ a{
 }
 
 
-/* =========================
-   FICHA PERFIL TRIPULANTE
-========================= */
+/*FICHA PERFIL TRIPULANTE*/
 
 .carnetPerfil {
 
@@ -798,9 +772,7 @@ a{
 }
 
 
-/* =========================
-   CARTEL SECRETO
-========================= */
+/*CARTEL SECRETO*/
 
 #cartelSecreto {
 
@@ -894,9 +866,7 @@ a{
 
 }
 
-/* =========================
-   ANIMACIÓN PIXEL SECRETO
-========================= */
+/*ANIMACIÓN PIXEL SECRETO*/
 
 .aparecerPixel {
 
@@ -947,9 +917,7 @@ a{
 
 }
 
-/* =========================
-   COLORES TARJETAS TESORO
-========================= */
+/*COLORES TARJETAS TESORO*/
 
 .card.azul {
 
@@ -979,9 +947,7 @@ a{
 }
 
 
-/* =========================
-   ESTILO GENERAL TARJETAS
-========================= */
+/*ESTILO GENERAL TARJETAS*/
 
 .card {
 
@@ -1004,9 +970,7 @@ a{
 
 }
 
-/* =========================
-   TESORO - BUSCADOR
-========================= */
+/*TESORO - BUSCADOR*/
 
 .buscadorTesoro {
 
@@ -1035,9 +999,7 @@ a{
 
 }
 
-/* =========================
-   TESORO - FILTRO CATEGORÍAS
-========================= */
+/*TESORO - FILTRO CATEGORÍAS*/
 
 .zonaFiltro {
 
@@ -1080,9 +1042,7 @@ a{
 
 }
 
-/* =========================
-   MENU MAPA TESORO
-========================= */
+/*MENU MAPA TESORO*/
 
 .botonCategorias {
 
@@ -1131,9 +1091,7 @@ a{
 
 
 
-/* =========================
-   DESPLEGABLE CATEGORIAS
-========================= */
+/*DESPLEGABLE CATEGORIAS*/
 
 .menuCategorias {
 
@@ -1195,9 +1153,7 @@ a{
 
 }
 
-/* =========================
-   PREVISUALIZACIÓN ADMIN
-========================= */
+/*PREVISUALIZACIÓN ADMIN*/
 
 .cardPreview {
 
@@ -1217,9 +1173,7 @@ a{
 
 }
 
-/* =========================
-   TARJETAS ADMIN
-========================= */
+/*TARJETAS ADMIN*/
 
 #listaAdmin {
 
@@ -1255,9 +1209,7 @@ a{
 
 }
 
-/* =========================
-   SIGNIFICADO COLOR TARJETA
-========================= */
+/*SIGNIFICADO COLOR TARJETA*/
 
 .etiquetaColor{
 
@@ -1283,9 +1235,7 @@ a{
 
 }
 
-/* ===========================
-   PÁGINAS LEGALES
-=========================== */
+/*PÁGINAS LEGALES*/
 
 .paginaLegal{
 
@@ -1332,9 +1282,7 @@ a{
 
 }
 
-/* ===========================
-   FOOTER LEGAL
-=========================== */
+/*FOOTER LEGAL*/
 
 .footerLegal {
 
@@ -1374,10 +1322,8 @@ a{
 
 }
 
-/* ==========================
-   NOTICIAS POTUSLANDIA
-   CRISTAL + DISCORD
-========================== */
+/*NOTICIAS POTUSLANDIA
+   CRISTAL + DISCORD*/
 
 
 .noticiaCard {
@@ -1678,9 +1624,7 @@ a{
 
 }
 
-/* ==========================================================
-   BOTÓN VOLVER (Política de Privacidad)
-========================================================== */
+/*BOTÓN VOLVER (Política de Privacidad)*/
 
 .boton-volver {
 
